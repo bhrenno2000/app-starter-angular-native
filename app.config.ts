@@ -22,7 +22,7 @@ const config: ExpoConfig = {
       foregroundImage: `${assets}/android-icon-foreground.png`,
       backgroundImage: `${assets}/android-icon-background.png`,
       monochromeImage: `${assets}/android-icon-monochrome.png`,
-      backgroundColor: '#e6f4fe',
+      backgroundColor: '#0a0a0a',
     },
   },
   plugins: [
@@ -33,9 +33,9 @@ const config: ExpoConfig = {
       'expo-splash-screen',
       {
         image: `${assets}/splash.png`,
-        imageWidth: 200,
+        imageWidth: 320,
         resizeMode: 'contain',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#fafafa',
         dark: { image: `${assets}/splash.png`, backgroundColor: '#0a0a0a' },
       },
     ],
