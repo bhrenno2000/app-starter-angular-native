@@ -14,14 +14,14 @@ import { env } from '@/core/constants/env';
   selector: 'app-auth-login-page',
   imports: [FormField, Button, Input, Typography, FormScreenLayout, Text, Form],
   template: `<app-form-screen-layout
-    ><app-typography variant="title">Bem-vindo de volta</app-typography
+    ><app-typography variant="title">Welcome back</app-typography
     ><app-form
       ><app-input
-        label="E-mail"
-        placeholder="email@exemplo.com"
+        label="Email"
+        placeholder="email@example.com"
         keyboardType="email-address"
         [formField]="loginForm.email" /><app-input
-        label="Senha"
+        label="Password"
         testId="login-password"
         placeholder="••••••••"
         [password]="true"
@@ -32,7 +32,7 @@ import { env } from '@/core/constants/env';
     }
     <app-form footer
       ><app-button
-        label="Entrar"
+        label="Sign in"
         [loading]="loginForm().submitting()"
         (pressed)="login()" /></app-form
   ></app-form-screen-layout>`,
@@ -52,10 +52,10 @@ export class AuthLoginPage {
     password: '',
   });
   protected readonly loginForm = form(this.data, (path) => {
-    required(path.email, { message: 'Informe seu e-mail.' });
-    email(path.email, { message: 'Informe um e-mail válido.' });
-    required(path.password, { message: 'Informe sua senha.' });
-    minLength(path.password, 6, { message: 'A senha deve ter pelo menos 6 caracteres.' });
+    required(path.email, { message: 'Enter your email.' });
+    email(path.email, { message: 'Enter a valid email.' });
+    required(path.password, { message: 'Enter your password.' });
+    minLength(path.password, 6, { message: 'Password must contain at least 6 characters.' });
   });
   protected async login(): Promise<void> {
     this.error.set(null);
@@ -66,7 +66,7 @@ export class AuthLoginPage {
           this.keyboard.dismiss();
           await this.navigation.reset('/home');
         } catch {
-          this.error.set('Não foi possível entrar. Verifique seus dados e tente novamente.');
+          this.error.set('Unable to sign in. Check your credentials and try again.');
         }
       },
     });

@@ -68,7 +68,7 @@ test('a late refresh cannot resurrect a logged out session', async () => {
   const refreshing = state.session.refresh();
   await state.session.logout();
   finish(updated);
-  await expect(refreshing).rejects.toThrow('A sessão mudou.');
+  await expect(refreshing).rejects.toThrow('The session changed.');
   expect(state.session.authenticated()).toBe(false);
   expect(state.storage.secrets.has(SECURE_KEYS.refreshToken)).toBe(false);
 });

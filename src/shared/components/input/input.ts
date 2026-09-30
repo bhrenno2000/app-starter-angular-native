@@ -24,7 +24,7 @@ import type { KeyboardType } from '@ng-native/components';
     />
     @if (invalid() && touched()) {
       <text accessibilityRole="alert" class="text-sm text-danger">{{
-        errors()[0]?.message ?? 'Verifique este campo.'
+        errors()[0]?.message ?? 'Check this field.'
       }}</text>
     }
   </view>`,

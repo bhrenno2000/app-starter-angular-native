@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import { SECURE_KEYS, type SecureKey } from './keys';
-const BIOMETRIC_PROMPT = 'Confirme sua identidade para continuar';
+const BIOMETRIC_PROMPT = 'Confirm your identity to continue';
 
 export function secureOptions(key: SecureKey): SecureStore.SecureStoreOptions {
   if (key === SECURE_KEYS.mmkvEncryptionKey) {

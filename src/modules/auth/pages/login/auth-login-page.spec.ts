@@ -17,30 +17,30 @@ async function setup() {
       { provide: NativeNavigation, useValue: { reset } },
     ],
   });
-  await userEvent.setup().type(screen.getByLabelText('Senha'), 'password');
+  await userEvent.setup().type(screen.getByLabelText('Password'), 'password');
   return { backend, reset };
 }
 test('submits login and resets the native stack', async () => {
   const { reset } = await setup();
-  await userEvent.setup().press(screen.getByRole('button', { name: 'Entrar' }));
+  await userEvent.setup().press(screen.getByRole('button', { name: 'Sign in' }));
   await waitFor(() => expect(reset).toHaveBeenCalledWith('/home'));
 });
 test('rejects invalid email without calling the backend', async () => {
   const { backend } = await setup();
   const login = vi.spyOn(backend, 'login');
   const user = userEvent.setup();
-  await user.clear(screen.getByLabelText('E-mail'));
-  await user.type(screen.getByLabelText('E-mail'), 'invalid');
-  await user.press(screen.getByRole('button', { name: 'Entrar' }));
+  await user.clear(screen.getByLabelText('Email'));
+  await user.type(screen.getByLabelText('Email'), 'invalid');
+  await user.press(screen.getByRole('button', { name: 'Sign in' }));
   expect(login).not.toHaveBeenCalled();
-  expect(screen.getByText('Informe um e-mail válido.')).toBeTruthy();
+  expect(screen.getByText('Enter a valid email.')).toBeTruthy();
 });
 test('shows a recoverable login error without navigation', async () => {
   const { backend, reset } = await setup();
   vi.spyOn(backend, 'login').mockRejectedValue(new Error('offline'));
-  await userEvent.setup().press(screen.getByRole('button', { name: 'Entrar' }));
+  await userEvent.setup().press(screen.getByRole('button', { name: 'Sign in' }));
   expect(
-    await screen.findByText('Não foi possível entrar. Verifique seus dados e tente novamente.'),
+    await screen.findByText('Unable to sign in. Check your credentials and try again.'),
   ).toBeTruthy();
   expect(reset).not.toHaveBeenCalled();
 });

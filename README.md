@@ -27,7 +27,7 @@ Once the development app is installed, use `bun start`. Angular runs through the
 - Angular services and signals in place of React hooks, Zustand and React Query.
 - Native HttpClient with HTTPS configuration, timeout, response validation and deduplicated token refresh on a 401 (one retry).
 - Refresh tokens in device-only SecureStore; access tokens in memory; user metadata and theme preference in AES-256 encrypted MMKV.
-- Persisted system/light/dark theme with the original starter's palette, Inter fonts and Portuguese UI.
+- Persisted system/light/dark theme with the original starter's palette, Inter fonts and English UI.
 - Button, Card, Form, FormScreenLayout, Header, Icon, Input, Skeleton and Typography primitives implemented as Angular components.
 - Vitest component/service/router tests, strict template checking, ESLint, Prettier, CI and a Maestro smoke flow.
 

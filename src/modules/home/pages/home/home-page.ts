@@ -13,13 +13,11 @@ import { AuthSession } from '@/modules/auth/services/auth-session';
     ><scroll-view class="flex-1"
       ><view class="gap-6 px-4 pt-4 pb-6"
         ><view class="gap-1"
-          ><app-typography variant="muted">Olá,</app-typography
-          ><app-typography variant="heading">{{
-            session.user()?.name ?? 'Visitante'
-          }}</app-typography
+          ><app-typography variant="muted">Hello,</app-typography
+          ><app-typography variant="heading">{{ session.user()?.name ?? 'Guest' }}</app-typography
           ><app-typography variant="muted">{{ session.user()?.email ?? '' }}</app-typography></view
         ><app-card
-          ><text class="font-semibold text-base text-foreground">Tema</text
+          ><text class="font-semibold text-base text-foreground">Theme</text
           ><view class="flex-row gap-2">
             @for (option of options; track option.mode) {
               <view class="flex-1"
@@ -34,7 +32,7 @@ import { AuthSession } from '@/modules/auth/services/auth-session';
           <text accessibilityRole="alert" class="text-sm text-danger">{{ error() }}</text>
         }
         <app-button
-          label="Sair"
+          label="Sign out"
           icon="lucideLogOut"
           variant="outline"
           [danger]="true"
@@ -54,9 +52,9 @@ export class HomePage {
   protected readonly leaving = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly options: readonly { mode: ThemeMode; label: string }[] = [
-    { mode: 'system', label: 'Sistema' },
-    { mode: 'light', label: 'Claro' },
-    { mode: 'dark', label: 'Escuro' },
+    { mode: 'system', label: 'System' },
+    { mode: 'light', label: 'Light' },
+    { mode: 'dark', label: 'Dark' },
   ];
   protected async logout(): Promise<void> {
     if (this.leaving()) return;
@@ -65,12 +63,12 @@ export class HomePage {
     try {
       await this.session.logout();
     } catch {
-      this.error.set('Sessão encerrada neste dispositivo. O servidor não confirmou a saída.');
+      this.error.set('Signed out on this device. The server did not confirm sign-out.');
     }
     try {
       await this.navigation.reset('/auth/login');
     } catch {
-      this.error.set('Não foi possível abrir o login. Reinicie o app.');
+      this.error.set('Unable to open sign-in. Restart the app.');
     } finally {
       this.leaving.set(false);
     }

@@ -1,8 +1,8 @@
 export function getDocumentTypeLabel(document: string | null | undefined): string {
   if (!document) return '-';
   const cleaned = document.replace(/[^\d*]/g, '');
-  if (cleaned.length === 11) return 'Cadastro de Pessoa Física (CPF)';
-  if (cleaned.length === 14) return 'Cadastro Nacional da Pessoa Jurídica (CNPJ)';
+  if (cleaned.length === 11) return 'Individual taxpayer ID (CPF)';
+  if (cleaned.length === 14) return 'Business taxpayer ID (CNPJ)';
   return '-';
 }
 
@@ -22,7 +22,7 @@ export function maskEmail(email: string): string {
 }
 
 export function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('pt-BR', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'BRL',
   }).format(value);
@@ -54,7 +54,7 @@ export function getCurrencySymbol(currency: CurrencyCode): string {
 }
 
 export function formatAmount(amount: number, currency: CurrencyCode = 'BRL'): string {
-  const locale = currency === 'BRL' ? 'pt-BR' : 'en-US';
+  const locale = 'en-US';
   const symbol = getCurrencySymbol(currency);
   const formatted = amount.toLocaleString(locale, {
     minimumFractionDigits: 2,
@@ -70,20 +70,20 @@ export function formatTime(totalSeconds: number): string {
 }
 
 export function formatCurrentTime(): string {
-  return new Date().toLocaleTimeString('pt-BR', {
+  return new Date().toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
   });
 }
 
 export function formatCurrentDate(): string {
-  return new Date().toLocaleDateString('pt-BR');
+  return new Date().toLocaleDateString('en-US');
 }
 
 export function formatLocalTime(isoDate: string): string {
   const date = new Date(isoDate);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleTimeString('pt-BR', {
+  return date.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
   });
@@ -92,7 +92,7 @@ export function formatLocalTime(isoDate: string): string {
 export function formatLocalDate(isoDate: string): string {
   const date = new Date(isoDate);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleDateString('pt-BR');
+  return date.toLocaleDateString('en-US');
 }
 
 export function formatValidityDuration(fromIso: string, toIso: string): string {
@@ -110,29 +110,21 @@ export function formatValidityDuration(fromIso: string, toIso: string): string {
   return `${hours}h${String(minutes).padStart(2, '0')}`;
 }
 
-const WEEKDAYS = [
-  'Domingo',
-  'Segunda-feira',
-  'Terça-feira',
-  'Quarta-feira',
-  'Quinta-feira',
-  'Sexta-feira',
-  'Sábado',
-];
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const MONTHS = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 export function formatDateDisplay(isoDate: string): {
@@ -165,7 +157,7 @@ export function formatLongDate(isoDate: string): string {
   const { day, weekday, month, year } = formatDateDisplay(isoDate);
   const hours = date.getUTCHours().toString().padStart(2, '0');
   const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-  return `${weekday}, ${day} de ${month} de ${year} · ${hours}:${minutes}`;
+  return `${weekday}, ${month} ${day}, ${year} · ${hours}:${minutes}`;
 }
 
 export function formatCurrencyParts(value: number): {
@@ -173,20 +165,19 @@ export function formatCurrencyParts(value: number): {
   integerPart: string;
   decimalPart: string;
 } {
-  const formatted = new Intl.NumberFormat('pt-BR', {
+  const parts = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(value);
-
-  const parts = formatted.replace('R$', '').trim().split(',');
-  const integerPart = parts[0] || '0';
-  const decimalPart = parts[1] || '00';
+  }).formatToParts(value);
 
   return {
-    symbol: 'R$',
-    integerPart,
-    decimalPart: `,${decimalPart}`,
+    symbol: parts.find((part) => part.type === 'currency')?.value ?? 'R$',
+    integerPart: parts
+      .filter((part) => ['minusSign', 'integer', 'group'].includes(part.type))
+      .map((part) => part.value)
+      .join(''),
+    decimalPart: `${parts.find((part) => part.type === 'decimal')?.value ?? '.'}${parts.find((part) => part.type === 'fraction')?.value ?? '00'}`,
   };
 }
