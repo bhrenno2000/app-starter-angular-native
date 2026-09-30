@@ -54,7 +54,7 @@ bun run export         # production bundles for both platforms
 maestro test .maestro/auth-smoke.yaml
 ```
 
-The Maestro flow needs the installed development app and Metro running. Close the development-client menu before running. The test backend accepts any valid email/password shape; the default form is prefilled only when mock auth is enabled.
+The Maestro flow needs the installed development app and Metro running. Close the development-client menu before running. The test backend accepts any valid email/password shape. In mock mode the email is prefilled; enter a password of at least 6 characters (for example, `password`). Passwords are never prefilled.
 
 Node tests render against fake Fabric. They exercise bindings, validation, events, services and guards, but do not prove native layout, keyboard avoidance, animations or SecureStore/MMKV behavior. Review actual simulator/device results before shipping.
 

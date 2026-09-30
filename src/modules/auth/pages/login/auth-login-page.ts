@@ -22,6 +22,7 @@ import { env } from '@/core/constants/env';
         keyboardType="email-address"
         [formField]="loginForm.email" /><app-input
         label="Senha"
+        testId="login-password"
         placeholder="••••••••"
         [password]="true"
         [formField]="loginForm.password"
@@ -48,7 +49,7 @@ export class AuthLoginPage {
   protected readonly error = signal<string | null>(null);
   protected readonly data = signal({
     email: env.authMock ? 'user@example.com' : '',
-    password: env.authMock ? 'password' : '',
+    password: '',
   });
   protected readonly loginForm = form(this.data, (path) => {
     required(path.email, { message: 'Informe seu e-mail.' });

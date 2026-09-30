@@ -2,12 +2,23 @@ appId: com.bhrenno.appstarterangular
 ---
 - launchApp
 - assertVisible: 'Bem-vindo de volta'
+- takeScreenshot: login
+- tapOn: 'Entrar'
+- assertVisible: 'Informe sua senha.'
+- tapOn:
+    id: login-password
+- inputText: password
+- takeScreenshot: login-keyboard
+- hideKeyboard
 - tapOn: 'Entrar'
 - assertVisible: 'Mock User'
+- takeScreenshot: home-light
 - tapOn: 'Escuro'
+- takeScreenshot: home-dark
 - stopApp
 - launchApp
 - assertVisible: 'Mock User'
+- takeScreenshot: restored-home
 - tapOn: 'Claro'
 - tapOn: 'Sistema'
 - tapOn: 'Sair'
