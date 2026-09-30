@@ -3,7 +3,7 @@ import { Text } from '@ng-native/components';
 @Component({
   selector: 'app-typography',
   imports: [Text],
-  template: `<text [class]="classes()"><ng-content /></text>`,
+  templateUrl: './index.html',
 })
 export class Typography {
   readonly variant = input<'body' | 'title' | 'heading' | 'muted'>('body');
