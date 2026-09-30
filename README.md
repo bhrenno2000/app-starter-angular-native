@@ -1,7 +1,5 @@
 # App Starter Angular Native
 
-Private Angular Native proof of concept based on [bhrenno2000/app-starter](https://github.com/bhrenno2000/app-starter). Angular components render native iOS and Android views through React Native Fabric, inside Expo. Angular Native is alpha; verify native integrations on devices before production use.
-
 ## Requirements
 
 - Node 22.23.2 (`nvm use`); Bun 1.4.2.
