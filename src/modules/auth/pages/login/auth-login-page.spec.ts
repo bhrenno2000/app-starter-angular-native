@@ -17,6 +17,7 @@ async function setup() {
       { provide: NativeNavigation, useValue: { reset } },
     ],
   });
+  await userEvent.setup().type(screen.getByLabelText('Senha'), 'password');
   return { backend, reset };
 }
 test('submits login and resets the native stack', async () => {

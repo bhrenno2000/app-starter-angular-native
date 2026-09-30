@@ -26,6 +26,7 @@ test('protects home, logs in, changes theme and logs out', async () => {
   expect(await screen.findByText('Bem-vindo de volta')).toBeTruthy();
   expect(router.url).toBe('/auth/login');
   const user = userEvent.setup();
+  await user.type(screen.getByLabelText('Senha'), 'password');
   await user.press(screen.getByRole('button', { name: 'Entrar' }));
   expect(await screen.findByText('Mock User')).toBeTruthy();
   await waitFor(() => expect(router.url).toBe('/home'));

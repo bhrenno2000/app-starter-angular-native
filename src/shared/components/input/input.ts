@@ -9,6 +9,7 @@ import type { KeyboardType } from '@ng-native/components';
     ><text class="text-base font-medium text-foreground">{{ label() }}</text
     ><text-input
       class="min-h-12 rounded-xl border border-border bg-surface px-4 py-3 text-base text-foreground"
+      [testID]="testId()"
       [class.border-danger]="invalid() && touched()"
       [accessibilityLabel]="label()"
       [value]="value()"
@@ -29,6 +30,7 @@ import type { KeyboardType } from '@ng-native/components';
   </view>`,
 })
 export class Input {
+  readonly testId = input<string>();
   readonly label = input.required<string>();
   readonly placeholder = input('');
   readonly password = input(false);
