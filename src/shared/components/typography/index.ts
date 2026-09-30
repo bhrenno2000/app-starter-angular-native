@@ -1,3 +1,4 @@
+import type { TypographyVariant } from './types';
 import { Component, computed, input } from '@angular/core';
 import { Text } from '@ng-native/components';
 @Component({
@@ -6,7 +7,7 @@ import { Text } from '@ng-native/components';
   templateUrl: './index.html',
 })
 export class Typography {
-  readonly variant = input<'body' | 'title' | 'heading' | 'muted'>('body');
+  readonly variant = input<TypographyVariant>('body');
   protected readonly classes = computed(
     () =>
       ({

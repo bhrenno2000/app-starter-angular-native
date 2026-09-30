@@ -5,7 +5,7 @@ import { afterEach, expect, test, vi } from 'vitest';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { MemoryStorage } from '@/core/testing/memory-storage';
 import { MMKV_KEYS } from '@/core/storage/keys';
-import { ThemePreference } from './service';
+import { ThemePreference } from './index';
 @Component({ selector: 'test-theme', template: '' })
 class ThemeHost {}
 afterEach(cleanup);
