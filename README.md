@@ -19,7 +19,7 @@ Once the development app is installed, use `bun start`. Angular runs through the
 
 ## Included
 
-- Lazy-loaded Angular Router routes over native stacks, with awaited session guards.
+- Lazy-loaded feature route lists in `modules/<feature>/routes/index.ts`, native stacks and awaited session guards.
 - Login, protected home, logout and restoration of a mock session after restart.
 - Signal Forms with email/password validation, loading/disabled/error states.
 - Angular services and signals in place of React hooks, Zustand and React Query.
