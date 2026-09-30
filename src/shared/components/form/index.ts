@@ -3,6 +3,6 @@ import { View } from '@ng-native/components';
 @Component({
   selector: 'app-form',
   imports: [View],
-  template: `<view class="gap-4"><ng-content /></view>`,
+  templateUrl: './index.html',
 })
 export class Form {}

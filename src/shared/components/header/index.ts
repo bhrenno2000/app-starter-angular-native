@@ -5,18 +5,7 @@ import { Icon } from '../icon/index';
 @Component({
   selector: 'app-header',
   imports: [Pressable, Text, View, Icon],
-  template: `<view class="min-h-12 flex-row items-center gap-3">
-    @if (showBack()) {
-      <pressable
-        class="min-h-12 min-w-12 items-center justify-center"
-        accessibilityRole="button"
-        accessibilityLabel="Back"
-        (press)="navigation.back()"
-        ><app-icon name="lucideChevronLeft"
-      /></pressable>
-    }
-    <text class="text-lg font-semibold text-foreground">{{ title() }}</text></view
-  >`,
+  templateUrl: './index.html',
 })
 export class Header {
   protected readonly navigation = inject(NativeNavigation);

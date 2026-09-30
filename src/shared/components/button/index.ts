@@ -4,22 +4,7 @@ import { Icon } from '../icon/index';
 @Component({
   selector: 'app-button',
   imports: [ActivityIndicator, Pressable, Text, Icon],
-  template: `<pressable
-    [class]="classes()"
-    accessibilityRole="button"
-    [accessibilityLabel]="label()"
-    [accessibilityState]="{ disabled: disabled() || loading(), busy: loading() }"
-    [disabled]="disabled() || loading()"
-    (press)="pressed.emit()"
-  >
-    @if (loading()) {
-      <activity-indicator [color]="variant() === 'solid' ? '#fafafa' : '#737373'" />
-    }
-    @if (icon()) {
-      <app-icon [name]="icon()!" [class]="labelClasses()" />
-    }
-    <text [class]="labelClasses()">{{ label() }}</text></pressable
-  >`,
+  templateUrl: './index.html',
   styles: `
     :host {
       flex-shrink: 1;
