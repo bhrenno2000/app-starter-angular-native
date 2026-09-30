@@ -1,7 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
-import { SECURE_KEYS, type SecureKey } from './keys';
+import { SECURE_KEYS } from '../keys';
+import type { SecureKey, SecureStoreOptions } from './types';
 
-export function secureOptions(key: SecureKey): SecureStore.SecureStoreOptions {
+export function secureOptions(key: SecureKey): SecureStoreOptions {
   if (key === SECURE_KEYS.mmkvEncryptionKey) {
     return {
       keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY,

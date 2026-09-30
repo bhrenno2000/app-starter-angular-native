@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { ColorScheme } from '@ng-native/device';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { MMKV_KEYS } from '@/core/storage/keys';
-export type ThemeMode = 'system' | 'light' | 'dark';
+import type { ThemeMode } from './types';
 @Injectable({ providedIn: 'root' })
 export class ThemePreference {
   private readonly storage = inject(APP_STORAGE);

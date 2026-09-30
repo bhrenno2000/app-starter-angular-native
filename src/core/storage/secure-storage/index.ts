@@ -1,7 +1,7 @@
 import { utf8ByteLength } from '@/shared/utils/bytes';
 import * as SecureStore from 'expo-secure-store';
-import type { SecureKey } from './keys';
-import { secureOptions } from './secure-options';
+import type { SecureKey } from './types';
+import { secureOptions } from '../secure-options';
 
 const VALUE_LIMIT_BYTES = 2048;
 
@@ -10,7 +10,7 @@ function assertWithinLimit(key: SecureKey, value: string): void {
 
   if (bytes > VALUE_LIMIT_BYTES) {
     throw new Error(
-      `A chave "${key}" recebeu ${bytes} bytes, acima do limite de ${VALUE_LIMIT_BYTES} do SecureStore. ` +
+      `Key "${key}" received ${bytes} bytes, exceeding the SecureStore limit of ${VALUE_LIMIT_BYTES} bytes. ` +
         'SecureStore stores one secret per key. Use MMKV for aggregate values.',
     );
   }

@@ -1,4 +1,4 @@
-import type { AuthBackend } from '../auth-backend/service';
+import type { AuthBackend } from '../auth-backend/types';
 import type { AuthSession, LoginRequest } from '../../types/auth';
 const wait = () => new Promise<void>((resolve) => setTimeout(resolve, 150));
 const user = {
