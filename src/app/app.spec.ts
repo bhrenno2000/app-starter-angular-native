@@ -23,16 +23,16 @@ test('protects home, logs in, changes theme and logs out', async () => {
   const result = await setup();
   const router = result.componentRef.injector.get(Router);
   await router.navigateByUrl('/home');
-  expect(await screen.findByText('Bem-vindo de volta')).toBeTruthy();
+  expect(await screen.findByText('Welcome back')).toBeTruthy();
   expect(router.url).toBe('/auth/login');
   const user = userEvent.setup();
-  await user.type(screen.getByLabelText('Senha'), 'password');
-  await user.press(screen.getByRole('button', { name: 'Entrar' }));
+  await user.type(screen.getByLabelText('Password'), 'password');
+  await user.press(screen.getByRole('button', { name: 'Sign in' }));
   expect(await screen.findByText('Mock User')).toBeTruthy();
   await waitFor(() => expect(router.url).toBe('/home'));
-  await user.press(screen.getByRole('button', { name: 'Escuro' }));
-  await user.press(screen.getByRole('button', { name: 'Sair' }));
-  expect(await screen.findByText('Bem-vindo de volta')).toBeTruthy();
+  await user.press(screen.getByRole('button', { name: 'Dark' }));
+  await user.press(screen.getByRole('button', { name: 'Sign out' }));
+  expect(await screen.findByText('Welcome back')).toBeTruthy();
   expect(router.url).toBe('/auth/login');
 });
 test('restores session before deciding whether to show login', async () => {

@@ -51,14 +51,14 @@ export class AuthSession {
   async refresh(): Promise<Session> {
     if (this.refreshing) return this.refreshing;
     const token = this.current()?.refreshToken;
-    if (!token) throw new Error('Sessão expirada. Entre novamente.');
+    if (!token) throw new Error('Session expired. Sign in again.');
     const generation = this.generation;
     this.refreshing = this.backend
       .refresh(token)
       .then(async (session) => {
         await this.save(session, generation);
         if (generation !== this.generation || !this.authenticated()) {
-          throw new Error('A sessão mudou. Entre novamente.');
+          throw new Error('The session changed. Sign in again.');
         }
         return session;
       })

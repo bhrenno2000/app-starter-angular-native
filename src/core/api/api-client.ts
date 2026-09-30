@@ -14,7 +14,7 @@ export class ApiClient {
     accessToken?: string,
   ): Promise<T> {
     if (!env.apiUrl.startsWith('https://'))
-      throw new Error('Configure uma API HTTPS em EXPO_PUBLIC_API_URL.');
+      throw new Error('Configure an HTTPS API in EXPO_PUBLIC_API_URL.');
     const response = await firstValueFrom(
       this.http
         .request<unknown>(method, `${env.apiUrl.replace(/\/$/, '')}${path}`, {

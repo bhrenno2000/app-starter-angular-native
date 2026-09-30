@@ -21,7 +21,7 @@ export class MockAuthBackend implements AuthBackend {
   }
   refresh(refreshToken: string): Promise<AuthSession> {
     if (!refreshToken.startsWith('mock:'))
-      return Promise.reject(new Error('Sessão de teste inválida.'));
+      return Promise.reject(new Error('Invalid test session.'));
     return this.login({ email: refreshToken.slice(5), password: '' });
   }
   async getMe(_accessToken: string) {
