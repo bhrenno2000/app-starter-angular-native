@@ -42,7 +42,7 @@ src/
   main.ts     native bootstrap
 ```
 
-Use `@/*` for imports outside a feature and relative imports within it. Use kebab-case folders with consistent entry files: `pages/<name>/page.ts`, `services/<name>/service.ts` and `components/<name>/index.ts`. Pages use a sibling `page.html`, components use `index.html`, and the root shell uses `app.html`, all referenced through `templateUrl`. Storage units use `<name>/index.ts` and `types.ts`; interfaces and named type aliases belong in dedicated type files. Tests live beside each entry as `page.spec.ts`, `service.spec.ts` or `index.spec.ts`. Screen implementations live inside feature modules.
+Use `@/*` for imports outside a feature and relative imports within it. Use kebab-case folders with consistent entry files: `pages/<name>/page.ts`, `services/<name>/service.ts` and `components/<name>/index.ts`. Pages use a sibling `page.html`, components use `index.html`, and the root shell uses `app.html`, all referenced through `templateUrl`. API and storage units use `<name>/index.ts` and `types.ts`; interfaces and named type aliases belong in dedicated type files. Tests live beside each entry as `page.spec.ts`, `service.spec.ts` or `index.spec.ts`. Screen implementations live inside feature modules.
 
 ## Verification
 

@@ -1,10 +1,6 @@
+import type { HttpHandlerFn } from './types';
 import { Component, runInInjectionContext } from '@angular/core';
-import {
-  HttpErrorResponse,
-  HttpRequest,
-  HttpResponse,
-  type HttpHandlerFn,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http';
 import { cleanup, render } from '@ng-native/testing';
 import { firstValueFrom, of, throwError } from 'rxjs';
 import { afterEach, expect, test, vi } from 'vitest';
@@ -14,7 +10,7 @@ import { AUTH_BACKEND } from '@/modules/auth/services/auth-backend/service';
 import { MockAuthBackend } from '@/modules/auth/services/mock-auth-backend/service';
 import { AuthSession } from '@/modules/auth/services/auth-session/service';
 import { env } from '@/core/constants/env';
-import { authInterceptor } from './auth-interceptor';
+import { authInterceptor } from './index';
 @Component({ selector: 'test-http', template: '' })
 class HttpHost {}
 afterEach(cleanup);

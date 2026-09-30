@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { z } from 'zod';
-import { ApiClient } from '@/core/api/api-client/service';
+import { ApiClient } from '@/core/api/api-client';
 import type { AuthBackend } from '../auth-backend/types';
 import { sessionSchema, userSchema, type LoginRequest } from '../../types/auth';
 @Injectable({ providedIn: 'root' })
