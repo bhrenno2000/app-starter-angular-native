@@ -1,7 +1,6 @@
-import type { AppStorage } from './app-storage';
-import { getStorage } from './mmkv';
-import { deleteSecureItem, getSecureItem, setSecureItem } from './secure-storage';
-import type { SecureKey } from './keys';
+import type { AppStorage, SecureKey } from './types';
+import { getStorage } from '../mmkv';
+import { deleteSecureItem, getSecureItem, setSecureItem } from '../secure-storage';
 export const nativeStorage: AppStorage = {
   get: (key) => getStorage().getString(key) ?? null,
   set: (key, value) => getStorage().set(key, value),

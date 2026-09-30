@@ -1,9 +1,10 @@
+import type { MMKV } from './types';
 import { Buffer } from 'buffer';
 import Constants from 'expo-constants';
 import * as Crypto from 'expo-crypto';
-import { createMMKV, deleteMMKV, existsMMKV, type MMKV } from 'react-native-mmkv';
-import { SECURE_KEYS } from './keys';
-import { getSecureItemSync, setSecureItemSync } from './secure-storage';
+import { createMMKV, deleteMMKV, existsMMKV } from 'react-native-mmkv';
+import { SECURE_KEYS } from '../keys';
+import { getSecureItemSync, setSecureItemSync } from '../secure-storage';
 
 // expoConfig can be null at runtime: the fallback silently changes the id
 // and orphans the previous database instead of failing loudly.
