@@ -29,7 +29,7 @@ Once the development app is installed, use `bun start`. Angular runs through the
 - Refresh tokens in device-only SecureStore; access tokens in memory; user metadata and theme preference in AES-256 encrypted MMKV.
 - Persisted system/light/dark theme with the original starter's palette, Inter fonts and English UI.
 - Button, Card, Form, FormScreenLayout, Header, Icon, Input, Skeleton and Typography primitives implemented as Angular components.
-- Vitest component/service/router tests, strict template checking, ESLint, Prettier, CI and a Maestro smoke flow.
+- Vitest component/service/router tests, strict template checking, ESLint, Prettier and a Maestro smoke flow.
 
 This is a port of the starter's main flows. The original standalone device-secret and biometric helper APIs are not included; the UI did not expose those flows. FlashList, HeroUI Native, Uniwind, Expo Router and React-specific form/state bindings are replaced by native Angular primitives. Skeleton is static; animation/performance/hardware security have not been validated by the Node tests.
 
