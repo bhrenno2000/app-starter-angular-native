@@ -50,6 +50,9 @@ AGENTS.md
 CLAUDE.md
 /PRODUCT.md
 /DESIGN.md
+/VALIDATION.md
+/*-pr.md
+/*-pr-body.md
 .env
 work/
 coverage/
