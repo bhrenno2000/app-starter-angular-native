@@ -14,7 +14,7 @@ The simulator exercised the actual SecureStore/MMKV adapters rather than the in-
 ## Repository checks
 
 - Repository visibility confirmed private; default branch is develop.
-- No .claude files or root CLAUDE.md in Git objects or tracked files. Both are ignored; detailed Angular rules remain local.
+- Agent instructions and context files are local-only and ignored. The initial AGENTS.md, PRODUCT.md and DESIGN.md files were subsequently removed from tracked files; earlier commits retain them. Detailed Angular rules remain local.
 - The original app-starter correction was merged through PR #12, with typecheck and lint passed.
 
 ## CI limitation

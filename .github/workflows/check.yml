@@ -19,4 +19,6 @@ jobs:
       - run: bun run check
       - run: bun run export
       - name: Verify local instructions are not tracked
-        run: test -z "$(git ls-files .claude)"
+        run: |
+          tracked=$(git ls-files '.claude/*' '.codex/*' '.agents/*' 'AGENTS.md' 'CLAUDE.md' 'PRODUCT.md' 'DESIGN.md')
+          test -z "$tracked"
