@@ -27,7 +27,7 @@ export class AuthSession {
     try {
       await this.save(await this.backend.refresh(token), generation);
     } catch {
-      await this.clear();
+      if (generation === this.generation) await this.clear();
     }
   }
   async login(data: LoginRequest): Promise<void> {
@@ -57,6 +57,9 @@ export class AuthSession {
       .refresh(token)
       .then(async (session) => {
         await this.save(session, generation);
+        if (generation !== this.generation || !this.authenticated()) {
+          throw new Error('A sessão mudou. Entre novamente.');
+        }
         return session;
       })
       .catch(async (error: unknown) => {
@@ -79,7 +82,10 @@ export class AuthSession {
   private async clear(): Promise<void> {
     this.generation++;
     this.current.set(null);
-    this.storage.remove(MMKV_KEYS.userStore);
-    await this.persist(() => this.storage.removeSecret(SECURE_KEYS.refreshToken));
+    try {
+      this.storage.remove(MMKV_KEYS.userStore);
+    } finally {
+      await this.persist(() => this.storage.removeSecret(SECURE_KEYS.refreshToken));
+    }
   }
 }
