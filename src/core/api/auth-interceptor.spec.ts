@@ -10,9 +10,9 @@ import { firstValueFrom, of, throwError } from 'rxjs';
 import { afterEach, expect, test, vi } from 'vitest';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { MemoryStorage } from '@/core/testing/memory-storage';
-import { AUTH_BACKEND } from '@/modules/auth/services/auth-backend';
-import { MockAuthBackend } from '@/modules/auth/services/mock-auth-backend';
-import { AuthSession } from '@/modules/auth/services/auth-session';
+import { AUTH_BACKEND } from '@/modules/auth/services/auth-backend/service';
+import { MockAuthBackend } from '@/modules/auth/services/mock-auth-backend/service';
+import { AuthSession } from '@/modules/auth/services/auth-session/service';
 import { env } from '@/core/constants/env';
 import { authInterceptor } from './auth-interceptor';
 @Component({ selector: 'test-http', template: '' })
