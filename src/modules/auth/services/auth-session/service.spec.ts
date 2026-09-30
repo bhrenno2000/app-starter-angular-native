@@ -4,9 +4,9 @@ import { afterEach, expect, test, vi } from 'vitest';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { SECURE_KEYS, MMKV_KEYS } from '@/core/storage/keys';
 import { MemoryStorage } from '@/core/testing/memory-storage';
-import { AUTH_BACKEND } from './auth-backend';
-import { MockAuthBackend } from './mock-auth-backend';
-import { AuthSession } from './auth-session';
+import { AUTH_BACKEND } from '../auth-backend/service';
+import { MockAuthBackend } from '../mock-auth-backend/service';
+import { AuthSession } from './service';
 @Component({ selector: 'test-session', template: '' })
 class SessionHost {}
 afterEach(cleanup);

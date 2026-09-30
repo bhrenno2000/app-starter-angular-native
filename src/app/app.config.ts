@@ -4,9 +4,9 @@ import { provideNativeHttpClient } from '@ng-native/platform/http';
 import { provideNativeRouter } from '@ng-native/router';
 import { env } from '@/core/constants/env';
 import { authInterceptor } from '@/core/api/auth-interceptor';
-import { AUTH_BACKEND } from '@/modules/auth/services/auth-backend';
-import { MockAuthBackend } from '@/modules/auth/services/mock-auth-backend';
-import { HttpAuthBackend } from '@/modules/auth/services/http-auth-backend';
+import { AUTH_BACKEND } from '@/modules/auth/services/auth-backend/service';
+import { MockAuthBackend } from '@/modules/auth/services/mock-auth-backend/service';
+import { HttpAuthBackend } from '@/modules/auth/services/http-auth-backend/service';
 import { routes } from './app.routes';
 export const appConfig = {
   providers: [

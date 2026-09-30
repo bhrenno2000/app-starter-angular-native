@@ -3,9 +3,9 @@ import { NativeNavigation } from '@ng-native/router';
 import { afterEach, expect, test, vi } from 'vitest';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { MemoryStorage } from '@/core/testing/memory-storage';
-import { AUTH_BACKEND } from '../../services/auth-backend';
-import { MockAuthBackend } from '../../services/mock-auth-backend';
-import { AuthLoginPage } from './auth-login-page';
+import { AUTH_BACKEND } from '../../services/auth-backend/service';
+import { MockAuthBackend } from '../../services/mock-auth-backend/service';
+import { AuthLoginPage } from './page';
 afterEach(cleanup);
 async function setup() {
   const backend = new MockAuthBackend();

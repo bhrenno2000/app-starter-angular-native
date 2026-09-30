@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { z } from 'zod';
-import { ApiClient } from '@/core/api/api-client';
-import type { AuthBackend } from './auth-backend';
-import { sessionSchema, userSchema, type LoginRequest } from '../types/auth';
+import { ApiClient } from '@/core/api/api-client/service';
+import type { AuthBackend } from '../auth-backend/service';
+import { sessionSchema, userSchema, type LoginRequest } from '../../types/auth';
 @Injectable({ providedIn: 'root' })
 export class HttpAuthBackend implements AuthBackend {
   private readonly api = inject(ApiClient);

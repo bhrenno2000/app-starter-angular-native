@@ -2,8 +2,8 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import type { UserData } from '@/shared/models/user';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { MMKV_KEYS, SECURE_KEYS } from '@/core/storage/keys';
-import { AUTH_BACKEND } from './auth-backend';
-import type { AuthSession as Session, LoginRequest } from '../types/auth';
+import { AUTH_BACKEND } from '../auth-backend/service';
+import type { AuthSession as Session, LoginRequest } from '../../types/auth';
 @Injectable({ providedIn: 'root' })
 export class AuthSession {
   private readonly backend = inject(AUTH_BACKEND);
