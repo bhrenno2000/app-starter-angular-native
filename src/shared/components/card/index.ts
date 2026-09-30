@@ -3,6 +3,6 @@ import { View } from '@ng-native/components';
 @Component({
   selector: 'app-card',
   imports: [View],
-  template: `<view class="gap-3 rounded-xl border border-border bg-card p-4"><ng-content /></view>`,
+  templateUrl: './index.html',
 })
 export class Card {}

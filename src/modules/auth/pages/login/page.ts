@@ -13,29 +13,7 @@ import { env } from '@/core/constants/env';
 @Component({
   selector: 'app-auth-login-page',
   imports: [FormField, Button, Input, Typography, FormScreenLayout, Text, Form],
-  template: `<app-form-screen-layout
-    ><app-typography variant="title">Welcome back</app-typography
-    ><app-form
-      ><app-input
-        label="Email"
-        placeholder="email@example.com"
-        keyboardType="email-address"
-        [formField]="loginForm.email" /><app-input
-        label="Password"
-        testId="login-password"
-        placeholder="••••••••"
-        [password]="true"
-        [formField]="loginForm.password"
-    /></app-form>
-    @if (error()) {
-      <text accessibilityRole="alert" class="text-sm text-danger">{{ error() }}</text>
-    }
-    <app-form footer
-      ><app-button
-        label="Sign in"
-        [loading]="loginForm().submitting()"
-        (pressed)="login()" /></app-form
-  ></app-form-screen-layout>`,
+  templateUrl: './page.html',
   styles: `
     :host {
       flex: 1;

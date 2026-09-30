@@ -5,7 +5,7 @@ import { ThemePreference } from '@/core/theme/theme-preference/service';
 @Component({
   selector: 'app-root',
   imports: [SafeAreaProvider, NativeStackOutlet],
-  template: `<safe-area-provider class="flex-1"><native-stack-outlet /></safe-area-provider>`,
+  templateUrl: './app.html',
   styles: `
     :host {
       flex: 1;

@@ -3,6 +3,6 @@ import { View } from '@ng-native/components';
 @Component({
   selector: 'app-skeleton',
   imports: [View],
-  template: `<view class="h-4 rounded bg-border" [accessibilityElementsHidden]="true" />`,
+  templateUrl: './index.html',
 })
 export class Skeleton {}

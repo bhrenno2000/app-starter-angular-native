@@ -6,7 +6,7 @@ import { lucideLogOut, lucideChevronLeft } from '@ng-icons/lucide';
   selector: 'app-icon',
   imports: [NgIcon],
   providers: [provideIcons({ lucideLogOut, lucideChevronLeft })],
-  template: `<ng-icon [name]="name()" [size]="size()" />`,
+  templateUrl: './index.html',
 })
 export class Icon {
   readonly name = input.required<'lucideLogOut' | 'lucideChevronLeft'>();
