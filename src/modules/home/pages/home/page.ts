@@ -5,7 +5,7 @@ import { NativeNavigation } from '@ng-native/router';
 import { Button } from '@/shared/components/button/index';
 import { Card } from '@/shared/components/card/index';
 import { Typography } from '@/shared/components/typography/index';
-import { ThemePreference } from '@/core/theme/theme-preference/service';
+import { ThemePreference } from '@/core/theme/theme-preference';
 import { AuthSession } from '@/modules/auth/services/auth-session/service';
 @Component({
   selector: 'app-home-page',
