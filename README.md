@@ -27,7 +27,7 @@ Once the development app is installed, use `bun start`. Angular runs through the
 - Refresh tokens in device-only SecureStore; access tokens in memory; user metadata and theme preference in AES-256 encrypted MMKV.
 - Persisted system/light/dark theme with the original starter's palette, Inter fonts and English UI.
 - Button, Card, Form, FormScreenLayout, Header, Icon, Input, Skeleton and Typography primitives implemented as Angular components.
-- Vitest component/service/router tests, strict template checking, ESLint, Prettier and a Maestro smoke flow.
+- Vitest component/service/router tests, strict template checking, ESLint and Prettier.
 
 This is a port of the starter's main flows. The original standalone device-secret and biometric helper APIs are not included; the UI did not expose those flows. FlashList, HeroUI Native, Uniwind, Expo Router and React-specific form/state bindings are replaced by native Angular primitives. Skeleton is static; animation/performance/hardware security have not been validated by the Node tests.
 
@@ -49,10 +49,9 @@ Use `@/*` for imports outside a feature and relative imports within it. Files us
 ```sh
 bun run check          # strict types/templates, lint, Vitest and formatting
 bun run export         # production bundles for both platforms
-maestro test .maestro/auth-smoke.yaml
 ```
 
-The Maestro flow needs the installed development app and Metro running. Close the development-client menu before running. The test backend accepts any valid email/password shape. In mock mode the email is prefilled; enter a password of at least 6 characters (for example, `password`). Passwords are never prefilled.
+The test backend accepts any valid email/password shape. In mock mode the email is prefilled; enter a password of at least 6 characters (for example, `password`). Passwords are never prefilled.
 
 Node tests render against fake Fabric. They exercise bindings, validation, events, services and guards, but do not prove native layout, keyboard avoidance, animations or SecureStore/MMKV behavior. Review actual simulator/device results before shipping.
 
