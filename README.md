@@ -77,6 +77,6 @@ Tailwind uses `@ng-native/tailwind`, not Uniwind. There is no `tailwind.config.j
 
 ## Local agent instructions
 
-Agent instructions and context files are local-only and ignored: `.claude/`, `.codex/`, `.agents/`, `AGENTS.md`, `CLAUDE.md`, `PRODUCT.md` and `DESIGN.md`. Angular, native, storage, testing, structure and Git rules are kept locally. No original React-specific skills are carried into the Angular version.
+Agent instructions and context files are local-only and ignored: `.claude/`, `.codex/`, `.agents/`, `AGENTS.md`, `CLAUDE.md`, `PRODUCT.md`, `DESIGN.md`, `VALIDATION.md` and temporary PR drafts. Angular, native, storage, testing, structure and Git rules are kept locally. No original React-specific skills are carried into the Angular version.
 
 Best-practice sources researched on 2026-09-30: [Angular style guide](https://angular.dev/style-guide), [signals](https://angular.dev/guide/signals), [zoneless](https://angular.dev/guide/zoneless), [route guards](https://angular.dev/guide/routing/route-guards), [security](https://angular.dev/best-practices/security) and [Angular Native limitations](https://ng-native.com/guide/limitations).
