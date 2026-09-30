@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { SafeAreaView, ScrollView, Text, View } from '@ng-native/components';
 import { NativeNavigation } from '@ng-native/router';
-import { Button } from '@/shared/components/button/button';
-import { Card } from '@/shared/components/card/card';
-import { Typography } from '@/shared/components/typography/typography';
-import { ThemePreference, type ThemeMode } from '@/core/theme/theme-preference';
-import { AuthSession } from '@/modules/auth/services/auth-session';
+import { Button } from '@/shared/components/button/index';
+import { Card } from '@/shared/components/card/index';
+import { Typography } from '@/shared/components/typography/index';
+import { ThemePreference, type ThemeMode } from '@/core/theme/theme-preference/service';
+import { AuthSession } from '@/modules/auth/services/auth-session/service';
 @Component({
   selector: 'app-home-page',
   imports: [SafeAreaView, ScrollView, Text, View, Button, Card, Typography],

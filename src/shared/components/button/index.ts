@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { ActivityIndicator, Pressable, Text } from '@ng-native/components';
-import { Icon } from '../icon/icon';
+import { Icon } from '../icon/index';
 @Component({
   selector: 'app-button',
   imports: [ActivityIndicator, Pressable, Text, Icon],

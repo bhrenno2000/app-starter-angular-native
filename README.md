@@ -42,7 +42,7 @@ src/
   main.ts     native bootstrap
 ```
 
-Use `@/*` for imports outside a feature and relative imports within it. Files use Angular's kebab-case naming. Screen implementations live inside feature modules.
+Use `@/*` for imports outside a feature and relative imports within it. Use kebab-case folders with consistent entry files: `pages/<name>/page.ts`, `services/<name>/service.ts` and `components/<name>/index.ts`. Tests live beside each entry as `page.spec.ts`, `service.spec.ts` or `index.spec.ts`. Screen implementations live inside feature modules.
 
 ## Verification
 

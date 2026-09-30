@@ -3,12 +3,12 @@ import { FormField, email, form, minLength, required, submit } from '@angular/fo
 import { Text } from '@ng-native/components';
 import { Keyboard } from '@ng-native/device';
 import { NativeNavigation } from '@ng-native/router';
-import { Form } from '@/shared/components/form/form';
-import { Button } from '@/shared/components/button/button';
-import { Input } from '@/shared/components/input/input';
-import { Typography } from '@/shared/components/typography/typography';
-import { FormScreenLayout } from '@/shared/components/form-screen-layout/form-screen-layout';
-import { AuthSession } from '../../services/auth-session';
+import { Form } from '@/shared/components/form/index';
+import { Button } from '@/shared/components/button/index';
+import { Input } from '@/shared/components/input/index';
+import { Typography } from '@/shared/components/typography/index';
+import { FormScreenLayout } from '@/shared/components/form-screen-layout/index';
+import { AuthSession } from '../../services/auth-session/service';
 import { env } from '@/core/constants/env';
 @Component({
   selector: 'app-auth-login-page',

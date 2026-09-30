@@ -1,5 +1,5 @@
-import type { AuthBackend } from './auth-backend';
-import type { AuthSession, LoginRequest } from '../types/auth';
+import type { AuthBackend } from '../auth-backend/service';
+import type { AuthSession, LoginRequest } from '../../types/auth';
 const wait = () => new Promise<void>((resolve) => setTimeout(resolve, 150));
 const user = {
   id: 'mock-user-id',
