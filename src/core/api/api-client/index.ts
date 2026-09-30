@@ -1,3 +1,4 @@
+import type { HttpMethod } from './types';
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, timeout } from 'rxjs';
@@ -7,7 +8,7 @@ import { env } from '@/core/constants/env';
 export class ApiClient {
   private readonly http = inject(HttpClient);
   async request<T>(
-    method: 'GET' | 'POST',
+    method: HttpMethod,
     path: string,
     schema: z.ZodType<T>,
     body?: unknown,
