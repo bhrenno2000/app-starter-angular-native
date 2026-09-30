@@ -1,0 +1,8 @@
+node_modules
+.expo
+.angular-native
+dist
+ios
+android
+.claude
+bun.lock

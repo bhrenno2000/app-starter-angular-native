@@ -1,0 +1,14 @@
+appId: com.bhrenno.appstarterangular
+---
+- launchApp
+- assertVisible: 'Bem-vindo de volta'
+- tapOn: 'Entrar'
+- assertVisible: 'Mock User'
+- tapOn: 'Escuro'
+- stopApp
+- launchApp
+- assertVisible: 'Mock User'
+- tapOn: 'Claro'
+- tapOn: 'Sistema'
+- tapOn: 'Sair'
+- assertVisible: 'Bem-vindo de volta'
