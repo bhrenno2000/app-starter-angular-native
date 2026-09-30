@@ -1,10 +1,11 @@
+import type { ThemeOption } from './types';
 import { Component, inject, signal } from '@angular/core';
 import { SafeAreaView, ScrollView, Text, View } from '@ng-native/components';
 import { NativeNavigation } from '@ng-native/router';
 import { Button } from '@/shared/components/button/index';
 import { Card } from '@/shared/components/card/index';
 import { Typography } from '@/shared/components/typography/index';
-import { ThemePreference, type ThemeMode } from '@/core/theme/theme-preference/service';
+import { ThemePreference } from '@/core/theme/theme-preference/service';
 import { AuthSession } from '@/modules/auth/services/auth-session/service';
 @Component({
   selector: 'app-home-page',
@@ -22,7 +23,7 @@ export class HomePage {
   private readonly navigation = inject(NativeNavigation);
   protected readonly leaving = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly options: readonly { mode: ThemeMode; label: string }[] = [
+  protected readonly options: readonly ThemeOption[] = [
     { mode: 'system', label: 'System' },
     { mode: 'light', label: 'Light' },
     { mode: 'dark', label: 'Dark' },
