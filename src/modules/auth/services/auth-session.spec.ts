@@ -68,7 +68,26 @@ test('a late refresh cannot resurrect a logged out session', async () => {
   const refreshing = state.session.refresh();
   await state.session.logout();
   finish(updated);
-  await refreshing;
+  await expect(refreshing).rejects.toThrow('The session changed.');
   expect(state.session.authenticated()).toBe(false);
   expect(state.storage.secrets.has(SECURE_KEYS.refreshToken)).toBe(false);
+});
+
+test('a failed restore cannot clear a newer successful login', async () => {
+  const state = await setup();
+  await state.storage.setSecret(SECURE_KEYS.refreshToken, 'mock:old@example.com');
+  let rejectRestore: (error: Error) => void = () => {};
+  const refresh = vi.spyOn(state.backend, 'refresh').mockImplementation(
+    () =>
+      new Promise((_resolve, reject) => {
+        rejectRestore = reject;
+      }),
+  );
+  const restoring = state.session.restore();
+  await vi.waitFor(() => expect(refresh).toHaveBeenCalledTimes(1));
+  await state.session.login({ email: 'new@example.com', password: 'password' });
+  rejectRestore(new Error('expired'));
+  await restoring;
+  expect(state.session.user()?.email).toBe('new@example.com');
+  expect(state.storage.secrets.get(SECURE_KEYS.refreshToken)).toBe('mock:new@example.com');
 });

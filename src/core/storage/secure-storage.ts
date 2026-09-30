@@ -11,7 +11,7 @@ function assertWithinLimit(key: SecureKey, value: string): void {
   if (bytes > VALUE_LIMIT_BYTES) {
     throw new Error(
       `A chave "${key}" recebeu ${bytes} bytes, acima do limite de ${VALUE_LIMIT_BYTES} do SecureStore. ` +
-        'SecureStore guarda um segredo por chave, nunca um agregado — use o MMKV para este valor.',
+        'SecureStore stores one secret per key. Use MMKV for aggregate values.',
     );
   }
 }

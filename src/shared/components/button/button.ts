@@ -16,7 +16,7 @@ import { Icon } from '../icon/icon';
       <activity-indicator [color]="variant() === 'solid' ? '#fafafa' : '#737373'" />
     }
     @if (icon()) {
-      <app-icon [name]="icon()!" />
+      <app-icon [name]="icon()!" [class]="labelClasses()" />
     }
     <text [class]="labelClasses()">{{ label() }}</text></pressable
   >`,

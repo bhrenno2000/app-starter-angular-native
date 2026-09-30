@@ -27,7 +27,7 @@ Once the development app is installed, use `bun start`. Angular runs through the
 - Angular services and signals in place of React hooks, Zustand and React Query.
 - Native HttpClient with HTTPS configuration, timeout, response validation and deduplicated token refresh on a 401 (one retry).
 - Refresh tokens in device-only SecureStore; access tokens in memory; user metadata and theme preference in AES-256 encrypted MMKV.
-- Persisted system/light/dark theme with the original starter's palette, Inter fonts and Portuguese UI.
+- Persisted system/light/dark theme with the original starter's palette, Inter fonts and English UI.
 - Button, Card, Form, FormScreenLayout, Header, Icon, Input, Skeleton and Typography primitives implemented as Angular components.
 - Vitest component/service/router tests, strict template checking, ESLint, Prettier, CI and a Maestro smoke flow.
 
@@ -54,7 +54,7 @@ bun run export         # production bundles for both platforms
 maestro test .maestro/auth-smoke.yaml
 ```
 
-The Maestro flow needs the installed development app and Metro running. Close the development-client menu before running. The test backend accepts any valid email/password shape; the default form is prefilled only when mock auth is enabled.
+The Maestro flow needs the installed development app and Metro running. Close the development-client menu before running. The test backend accepts any valid email/password shape. In mock mode the email is prefilled; enter a password of at least 6 characters (for example, `password`). Passwords are never prefilled.
 
 Node tests render against fake Fabric. They exercise bindings, validation, events, services and guards, but do not prove native layout, keyboard avoidance, animations or SecureStore/MMKV behavior. Review actual simulator/device results before shipping.
 
