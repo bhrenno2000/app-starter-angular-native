@@ -10,7 +10,7 @@ import { Icon } from '../icon/icon';
       <pressable
         class="min-h-12 min-w-12 items-center justify-center"
         accessibilityRole="button"
-        accessibilityLabel="Voltar"
+        accessibilityLabel="Back"
         (press)="navigation.back()"
         ><app-icon name="lucideChevronLeft"
       /></pressable>
