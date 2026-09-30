@@ -1,4 +1,4 @@
-import type { AppStorage } from '@/core/storage/app-storage/types';
+import type { AppStorage } from './types';
 export class MemoryStorage implements AppStorage {
   readonly values = new Map<string, string>();
   readonly secrets = new Map<string, string>();

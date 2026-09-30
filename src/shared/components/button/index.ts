@@ -1,3 +1,4 @@
+import type { ButtonVariant, IconName } from './types';
 import { Component, computed, input, output } from '@angular/core';
 import { ActivityIndicator, Pressable, Text } from '@ng-native/components';
 import { Icon } from '../icon/index';
@@ -15,9 +16,9 @@ import { Icon } from '../icon/index';
   `,
 })
 export class Button {
-  readonly icon = input<'lucideLogOut' | 'lucideChevronLeft'>();
+  readonly icon = input<IconName>();
   readonly label = input.required<string>();
-  readonly variant = input<'solid' | 'outline'>('solid');
+  readonly variant = input<ButtonVariant>('solid');
   readonly danger = input(false);
   readonly loading = input(false);
   readonly disabled = input(false);
