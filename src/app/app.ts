@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { SafeAreaProvider } from '@ng-native/components';
+import { AppGestureProvider } from '@/core/providers/gestures';
+import { Component } from '@angular/core';
+import { AppSafeAreaProvider } from '@/core/providers/safe-area';
 import { NativeStackOutlet } from '@ng-native/router';
-import { ThemePreference } from '@/core/theme/theme-preference';
 @Component({
   selector: 'app-root',
-  imports: [SafeAreaProvider, NativeStackOutlet],
+  imports: [AppSafeAreaProvider, AppGestureProvider, NativeStackOutlet],
   templateUrl: './app.html',
   styles: `
     :host {
@@ -12,9 +12,4 @@ import { ThemePreference } from '@/core/theme/theme-preference';
     }
   `,
 })
-export class App {
-  private readonly theme = inject(ThemePreference);
-  constructor() {
-    this.theme.mode();
-  }
-}
+export class App {}

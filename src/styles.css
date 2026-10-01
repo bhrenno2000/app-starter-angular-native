@@ -2,9 +2,12 @@
 @import 'tailwindcss/utilities.css' source(none);
 @import '@ng-native/tailwind/native.css';
 @source './app';
+@source './core/providers';
 @source './shared/components';
 @source './modules/auth/pages';
 @source './modules/home/pages';
+@source './modules/showcase/pages';
+@source './modules/showcase/components';
 @theme {
   --font-weight-*: initial;
 

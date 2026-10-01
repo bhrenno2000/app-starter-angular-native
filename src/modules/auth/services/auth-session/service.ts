@@ -1,3 +1,4 @@
+import { SESSION_RESOURCE_CLEANUP } from '@/core/hooks/use-session-cleanup';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import type { UserData } from '@/shared/models/user';
 import { APP_STORAGE } from '@/core/storage/app-storage';
@@ -6,6 +7,7 @@ import { AUTH_BACKEND } from '../auth-backend/service';
 import type { AuthSession as Session, LoginRequest } from '../../types/auth';
 @Injectable({ providedIn: 'root' })
 export class AuthSession {
+  private readonly cleanup = inject(SESSION_RESOURCE_CLEANUP, { optional: true });
   private readonly backend = inject(AUTH_BACKEND);
   private readonly storage = inject(APP_STORAGE);
   private readonly current = signal<Session | null>(null);
@@ -73,11 +75,8 @@ export class AuthSession {
   }
   async logout(): Promise<void> {
     const token = this.accessToken();
-    try {
-      await this.backend.logout(token);
-    } finally {
-      await this.clear();
-    }
+    await this.clear();
+    await this.backend.logout(token);
   }
   private async clear(): Promise<void> {
     this.generation++;
@@ -85,7 +84,11 @@ export class AuthSession {
     try {
       this.storage.remove(MMKV_KEYS.userStore);
     } finally {
-      await this.persist(() => this.storage.removeSecret(SECURE_KEYS.refreshToken));
+      try {
+        await this.cleanup?.();
+      } finally {
+        await this.persist(() => this.storage.removeSecret(SECURE_KEYS.refreshToken));
+      }
     }
   }
 }

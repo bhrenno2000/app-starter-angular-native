@@ -1,0 +1,230 @@
+<safe-area-view class="flex-1 bg-background">
+  <app-page-header [title]="showcase.category.title" (back)="showcase.back()" />
+  @if (showcase.demo.list; as list) {
+    <app-sample-list [list]="list" />
+  }
+  <scroll-view class="flex-1">
+    <view class="gap-6 px-4 pt-4 pb-6">
+      @if (showcase.demo.layout; as layout) {
+        <view class="gap-2 px-4 py-2">
+          <text class="text-sm text-muted">Native-driver motion preview</text>
+          <view class="h-14 justify-center rounded-xl bg-surface px-3">
+            <view
+              class="h-8 w-16 rounded-lg bg-accent"
+              [animatedStyle]="layout.animatedStyle"
+              accessibilityLabel="Native animation marker"
+            />
+          </view>
+          @if (layout.nativeDriverUsed() !== null) {
+            <text class="text-sm text-muted">
+              {{
+                layout.nativeDriverUsed()
+                  ? 'Native driver confirmed'
+                  : 'JavaScript animation fallback'
+              }}
+            </text>
+          }
+          <text class="text-sm text-muted">LayoutAnimation request preview</text>
+          <view
+            class="justify-center rounded-xl bg-accent px-4"
+            [style.height.px]="layout.expanded() ? 100 : 52"
+            accessibilityRole="summary"
+            [accessibilityState]="{ expanded: layout.expanded() }"
+          >
+            <text class="text-base font-semibold text-accent-foreground">
+              {{ layout.expanded() ? 'Expanded panel' : 'Collapsed panel' }}
+            </text>
+          </view>
+          @for (row of layout.rows(); track row.id) {
+            <view class="rounded-lg bg-surface px-3 py-1">
+              <text class="text-sm text-foreground">{{ row.title }}</text>
+            </view>
+          }
+        </view>
+      }
+      @if (showcase.demo.interaction; as interaction) {
+        <view class="gap-2 px-4 py-2">
+          <text class="text-sm text-muted">Drag the tile or pinch with two fingers</text>
+          <view
+            class="h-44 items-center justify-center rounded-xl bg-surface"
+            testID="gesture-stage"
+          >
+            <view
+              class="h-16 w-20 items-center justify-center rounded-xl bg-accent"
+              testID="gesture-tile"
+              accessibilityLabel="Drag and pinch preview"
+              [gesture]="interaction.transformGesture"
+              [workletStyle]="interaction.style"
+            >
+              <text class="text-sm font-semibold text-accent-foreground">Angular</text>
+            </view>
+          </view>
+          <view
+            class="h-12 items-center justify-center rounded-xl bg-surface"
+            testID="gesture-press"
+            accessibilityLabel="Tap or hold preview"
+            [gesture]="interaction.pressGesture"
+          >
+            <text class="text-sm text-foreground">Tap here or hold for 650 ms</text>
+          </view>
+        </view>
+      }
+
+      <view class="gap-2">
+        <app-typography variant="muted">{{ showcase.category.description }}</app-typography>
+      </view>
+      @if (showcase.demo.interaction; as interaction) {
+        <text selectable class="text-sm text-foreground" testID="gesture-summary">
+          {{ interaction.summary() }}
+        </text>
+        <text class="text-sm text-muted">
+          Moving the tile uses UI worklets; Angular receives completed gesture summaries.
+          Interactions pause when this screen is inactive and resume when it becomes active.
+        </text>
+      }
+      <view class="gap-3">
+        @for (action of showcase.demo.actions; track action.id) {
+          <app-button
+            [label]="action.label"
+            [disabled]="!!showcase.demo.busy()"
+            [loading]="showcase.demo.busy() === action.id"
+            (pressed)="showcase.demo.perform(action.id)"
+          />
+        }
+      </view>
+      @if (showcase.demo.nfc; as nfc) {
+        <app-card>
+          <view class="gap-3">
+            <app-typography variant="heading">NFC session</app-typography>
+            <app-button
+              label="Cancel NFC reading"
+              variant="outline"
+              [disabled]="!nfc.scanning()"
+              (pressed)="nfc.cancel()"
+            />
+            @if (nfc.tag(); as tag) {
+              <text selectable class="text-sm text-foreground">
+                Tag {{ tag.id ?? 'unknown' }} · {{ tag.type ?? 'unknown' }}
+              </text>
+              <text class="text-sm text-muted">
+                {{ tag.recordsTotal }} records; showing up to 16. Payload hex is limited to 512
+                bytes per record.
+              </text>
+              @for (record of tag.records; track $index) {
+                <text selectable class="text-sm text-foreground">
+                  {{ record.kind }}: {{ record.value }}
+                </text>
+                <text selectable class="text-sm text-muted">Hex: {{ record.payloadHex }}</text>
+              }
+            }
+          </view>
+        </app-card>
+      }
+      @if (showcase.demo.ble; as ble) {
+        <app-card>
+          <view class="gap-3">
+            <app-typography variant="heading">BLE selection</app-typography>
+            <text class="text-sm text-foreground">{{ ble.status() }}</text>
+            @for (peer of ble.devices(); track peer.id) {
+              <view class="gap-2">
+                <text class="text-sm text-muted">
+                  {{ peer.id }} · RSSI {{ peer.rssi ?? 'unknown' }}
+                </text>
+                <app-button
+                  [label]="'Select ' + peer.label + ' (' + peer.id.slice(-6) + ')'"
+                  [variant]="ble.selected() === peer.id ? 'solid' : 'outline'"
+                  [disabled]="!!showcase.demo.busy()"
+                  (pressed)="ble.select(peer.id)"
+                />
+              </view>
+            }
+            @for (field of ble.fields(); track field.key) {
+              <view class="gap-2">
+                <text class="text-sm text-muted">
+                  Service {{ field.service }} · readable {{ field.readable }} · observable
+                  {{ field.notifiable }}
+                </text>
+                <app-button
+                  [label]="'Select characteristic ' + field.uuid"
+                  [variant]="ble.selectedField() === field.key ? 'solid' : 'outline'"
+                  [disabled]="!!showcase.demo.busy()"
+                  (pressed)="ble.selectField(field.key)"
+                />
+              </view>
+            }
+            @if (ble.value() !== null) {
+              <text selectable class="text-sm text-foreground">
+                Base64 value: {{ ble.value() }}
+              </text>
+            }
+          </view>
+        </app-card>
+      }
+      @if (showcase.demo.error()) {
+        <text accessibilityRole="alert" class="text-sm text-danger">
+          {{ showcase.demo.error() }}
+        </text>
+      }
+      @if (showcase.demo.preview?.()) {
+        <image
+          [src]="showcase.demo.preview() ?? ''"
+          resizeMode="contain"
+          class="h-64 w-full rounded-xl"
+          accessibilityLabel="Selected media preview"
+        />
+      }
+      @if (showcase.demo.map; as map) {
+        @if (map.visible()) {
+          <app-native-map
+            [camera]="map.camera()"
+            [markers]="map.markers()"
+            (mapClick)="map.event('mapClick', $event)"
+            (markerClick)="map.event('markerClick', $event)"
+            (cameraMove)="map.event('cameraMove', $event)"
+          />
+        }
+      }
+      @if (showcase.demo.web; as web) {
+        @if (web.document(); as document) {
+          <app-native-web-view
+            [document]="document"
+            (message)="web.message($event)"
+            (shouldStartLoadWithRequest)="web.navigation($event)"
+            (loadingFinish)="web.loaded()"
+            (loadingError)="web.failed($event)"
+          />
+        }
+      }
+      @if (showcase.demo.camera; as camera) {
+        @if (camera.visible()) {
+          <app-native-camera
+            [facing]="camera.facing()"
+            [torch]="camera.torch()"
+            (barcodeScanned)="camera.scanned($event)"
+            (cameraReady)="camera.ready()"
+            (mountError)="camera.failed($event)"
+          />
+        }
+      }
+      @if (showcase.demo.videoId; as videoId) {
+        @if (videoId() !== null) {
+          <app-native-video [playerId]="videoId()!" class="h-64 w-full rounded-xl" />
+        }
+      }
+      <app-card>
+        <view class="gap-3">
+          <app-typography variant="heading">Result</app-typography>
+          <text selectable class="text-sm text-foreground">{{ showcase.demo.output() }}</text>
+          @if (showcase.demo.reading?.()) {
+            <text selectable class="text-sm text-foreground">{{ showcase.demo.reading() }}</text>
+          }
+          @if (showcase.demo.coordinates?.()) {
+            <text selectable class="text-sm text-foreground">
+              {{ showcase.demo.coordinates() }}
+            </text>
+          }
+        </view>
+      </app-card>
+    </view>
+  </scroll-view>
+</safe-area-view>
