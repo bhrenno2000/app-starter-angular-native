@@ -1,4 +1,4 @@
-import { DestroyRef, effect, inject } from '@angular/core';
+import { DestroyRef, effect, inject, untracked } from '@angular/core';
 import { AppState, SCREEN_IN_FRONT } from '@ng-native/device';
 export function useScreenLifecycle(stop: () => void) {
   const screen = inject(SCREEN_IN_FRONT);
@@ -11,7 +11,7 @@ export function useScreenLifecycle(stop: () => void) {
     stop();
   };
   effect(() => {
-    if (!screen() || !app.active()) suspend();
+    if (!screen() || !app.active()) untracked(suspend);
   });
   inject(DestroyRef).onDestroy(() => {
     disposed = true;

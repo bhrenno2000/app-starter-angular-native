@@ -1,3 +1,5 @@
+import { NativeGesture } from '@ng-native/components/gestures';
+import { WorkletStyle } from '@ng-native/components/reanimated';
 import { AnimatedStyle } from '@ng-native/components/animations';
 import { NativeMap } from '@/shared/components/native-map';
 import { NativeWebView } from '@/shared/components/native-web-view';
@@ -12,6 +14,8 @@ import { useShowcaseFeature } from '../../hooks/use-showcase-feature';
 @Component({
   selector: 'app-showcase-feature-page',
   imports: [
+    NativeGesture,
+    WorkletStyle,
     AnimatedStyle,
     NativeMap,
     NativeWebView,

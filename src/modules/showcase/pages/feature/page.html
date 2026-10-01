@@ -37,12 +37,45 @@
       }
     </view>
   }
+  @if (showcase.demo.interaction; as interaction) {
+    <view class="gap-2 px-4 py-2">
+      <text class="text-sm text-muted">Drag the tile or pinch with two fingers</text>
+      <view class="h-44 items-center justify-center rounded-xl bg-surface" testID="gesture-stage">
+        <view
+          class="h-16 w-20 items-center justify-center rounded-xl bg-accent"
+          testID="gesture-tile"
+          accessibilityLabel="Drag and pinch preview"
+          [gesture]="interaction.transformGesture"
+          [workletStyle]="interaction.style"
+        >
+          <text class="text-sm font-semibold text-accent-foreground">Angular</text>
+        </view>
+      </view>
+      <view
+        class="h-12 items-center justify-center rounded-xl bg-surface"
+        testID="gesture-press"
+        accessibilityLabel="Tap or hold preview"
+        [gesture]="interaction.pressGesture"
+      >
+        <text class="text-sm text-foreground">Tap here or hold for 650 ms</text>
+      </view>
+    </view>
+  }
   <scroll-view class="flex-1">
     <view class="gap-6 px-4 pt-4 pb-6">
       <view class="gap-2">
         <app-typography variant="title">{{ showcase.category.title }}</app-typography>
         <app-typography variant="muted">{{ showcase.category.description }}</app-typography>
       </view>
+      @if (showcase.demo.interaction; as interaction) {
+        <text selectable class="text-sm text-foreground" testID="gesture-summary">
+          {{ interaction.summary() }}
+        </text>
+        <text class="text-sm text-muted">
+          Moving the tile uses UI worklets; Angular receives completed gesture summaries. After
+          returning from another screen or the background, reset the preview to re-enable gestures.
+        </text>
+      }
       <view class="gap-3">
         @for (action of showcase.demo.actions; track action.id) {
           <app-button

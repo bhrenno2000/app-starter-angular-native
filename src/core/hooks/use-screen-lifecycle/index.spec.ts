@@ -46,3 +46,23 @@ test('suspends active hardware when the app enters the background', async () => 
   expect(() => componentRef.instance.lifecycle.assertActive()).toThrow('no longer active');
   componentRef.destroy();
 });
+
+test('cleanup state is not a dependency of the lifecycle effect', async () => {
+  const foreground = signal(true);
+  const cleanups = signal(0);
+  const stop = vi.fn(() => cleanups.update((value) => value + 1));
+  const { componentRef, detectChanges } = await render(Host, {
+    providers: [
+      { provide: STOP, useValue: stop },
+      { provide: AppState, useValue: { active: foreground } },
+    ],
+  });
+  foreground.set(false);
+  await detectChanges();
+  expect(stop).toHaveBeenCalledOnce();
+  cleanups.set(20);
+  await detectChanges();
+  expect(stop).toHaveBeenCalledOnce();
+  componentRef.destroy();
+  expect(stop).toHaveBeenCalledTimes(2);
+});
