@@ -38,14 +38,35 @@ test('windows a long list and rebinds recycled rows without leaking item selecti
     contentSize: { width: 320, height: 200 * 64 },
   });
   expect(screen.queryByRole('button', { name: 'Select Sample item 1' })).toBeNull();
-  const target = screen.getByRole('button', { name: 'Select Sample item 100' });
+  const target = screen.getByRole('button', { name: 'Select Sample item 100, favorite' });
   expect(target.props['accessibilityState']).toMatchObject({ selected: false });
   expect(screen.getByText('Sample item 100 · Favorite')).toBeTruthy();
   await userEvent.setup().press(target);
   expect(selectedId()).toBe(100);
   await waitFor(() =>
     expect(
-      screen.getByRole('button', { name: 'Select Sample item 100' }).props['accessibilityState'],
+      screen.getByRole('button', { name: 'Select Sample item 100, favorite' }).props[
+        'accessibilityState'
+      ],
     ).toMatchObject({ selected: true }),
   );
+});
+
+test('renders the empty state outside the zero-height virtual content', async () => {
+  await render(SampleList, {
+    inputs: {
+      list: {
+        items: signal([]),
+        selectedId: signal(null),
+        favoritesOnly: signal(true),
+        canLoadMore: signal(false),
+        summary: signal('No favorite samples'),
+        loadMore: vi.fn(),
+        select: vi.fn(),
+      },
+    },
+  });
+  expect(screen.getByText('No favorite sample items yet.')).toBeTruthy();
+  expect(screen.getByTestId('sample-list-empty')).toBeTruthy();
+  expect(screen.queryByTestId('sample-list')).toBeNull();
 });

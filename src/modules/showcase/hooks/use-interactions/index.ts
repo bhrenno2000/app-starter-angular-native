@@ -1,4 +1,4 @@
-import { computed, signal } from '@angular/core';
+import { computed, effect, signal } from '@angular/core';
 import { sharedValue, workletStyle } from '@ng-native/components/reanimated';
 import { Gesture } from 'react-native-gesture-handler';
 import { cancelAnimation, withSpring } from 'react-native-reanimated';
@@ -33,6 +33,9 @@ export function useInteractions() {
     cancelAnimation(x);
     cancelAnimation(y);
     cancelAnimation(scale);
+  });
+  effect(() => {
+    enabled.value = lifecycle.isActive();
   });
   function report(
     kind: InteractionKind,
@@ -154,7 +157,7 @@ export function useInteractions() {
         label: 'Run a Reanimated spring',
         run: () => {
           lifecycle.assertActive();
-          if (!enabled.value) throw new Error('Reset the preview to enable interactions again.');
+          enabled.value = true;
           x.value = withSpring(80);
           scale.value = withSpring(1.2);
           return 'UI-thread spring requested. Drag or pinch to change the preview.';

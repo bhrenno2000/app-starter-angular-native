@@ -18,6 +18,7 @@ export function useScreenLifecycle(stop: () => void) {
     suspend();
   });
   return {
+    isActive: active,
     checkpoint() {
       const current = generation;
       return () => active() && generation === current;

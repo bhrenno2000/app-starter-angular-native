@@ -9,8 +9,8 @@ class Host {
   readonly demo = useInteractions();
 }
 afterEach(cleanup);
-async function setup() {
-  const front = signal(true);
+async function setup(initialFront = true) {
+  const front = signal(initialFront);
   const active = signal(true);
   const result = await render(Host, {
     providers: [
@@ -85,7 +85,7 @@ test('suspension ignores late completions, and reset does not revive the stale g
   active.set(true);
   await detectChanges();
   await demo.perform('spring');
-  expect(demo.error()).toContain('Reset the preview');
+  expect(demo.error()).toBeNull();
   await demo.perform('reset');
   pan['onEnd']({});
   expect(JSON.parse(demo.interaction.summary()).lastGesture).toBeNull();
@@ -103,4 +103,15 @@ test('destroying the owner ignores subsequent native completion reports', async 
   componentRef.destroy();
   tap['onEnd']({}, true);
   expect(JSON.parse(interaction.summary()).taps).toBe(0);
+});
+
+test('accepts gestures when a newly mounted screen becomes the front screen', async () => {
+  const { componentRef, front, detectChanges } = await setup(false);
+  front.set(true);
+  await detectChanges();
+  const interaction = componentRef.instance.demo.interaction;
+  const tap = callbacks(child(interaction.pressGesture, 1));
+  tap['onBegin']({});
+  tap['onEnd']({}, true);
+  expect(JSON.parse(interaction.summary()).taps).toBe(1);
 });
