@@ -5,9 +5,6 @@ import * as Crypto from 'expo-crypto';
 import { createMMKV, deleteMMKV, existsMMKV } from 'react-native-mmkv';
 import { SECURE_KEYS } from '../keys';
 import { getSecureItemSync, setSecureItemSync } from '../secure-storage';
-
-// expoConfig can be null at runtime: the fallback silently changes the id
-// and orphans the previous database instead of failing loudly.
 const MMKV_ID = `${Constants.expoConfig?.slug ?? 'app'}-storage`;
 
 const ENCRYPTION_KEY_BYTES = 24;
