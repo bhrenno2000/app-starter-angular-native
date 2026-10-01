@@ -7,7 +7,7 @@ import { isDevice } from 'expo-device';
 import { z } from 'zod';
 import { useNativeTask } from '../use-native-task';
 import { useScreenLifecycle } from '../use-screen-lifecycle';
-import type { BackgroundCoordinate, LocationArrival } from './types';
+import type { BackgroundCoordinate, LocationArrival, LocationTrackingState } from './types';
 const taskName = 'angular-native-showcase-location-v1';
 const latest = signal<BackgroundCoordinate | null>(null);
 const status = signal(
@@ -16,6 +16,7 @@ const status = signal(
 let generation = 0;
 let deliveryBlocked = false;
 let transition: Promise<void> = Promise.resolve();
+let preferenceTransition: Promise<void> = Promise.resolve();
 const payload = z.object({
   locations: z
     .array(
@@ -41,12 +42,44 @@ async function database() {
   });
   try {
     await db.execAsync(
-      'PRAGMA journal_mode = WAL; PRAGMA busy_timeout = 5000; CREATE TABLE IF NOT EXISTS arrivals (id INTEGER PRIMARY KEY AUTOINCREMENT, receivedAt TEXT NOT NULL, samples INTEGER NOT NULL)',
+      'PRAGMA journal_mode = WAL; PRAGMA busy_timeout = 5000; CREATE TABLE IF NOT EXISTS arrivals (id INTEGER PRIMARY KEY AUTOINCREMENT, receivedAt TEXT NOT NULL, samples INTEGER NOT NULL); CREATE TABLE IF NOT EXISTS tracking_settings (id INTEGER PRIMARY KEY CHECK (id = 1), enabled INTEGER NOT NULL CHECK (enabled IN (0, 1)))',
     );
     return db;
   } catch (error) {
     await db.closeAsync();
     throw error;
+  }
+}
+function setDesiredTracking(enabled: boolean) {
+  const pending = preferenceTransition
+    .catch(() => {})
+    .then(async () => {
+      const db = await database();
+      try {
+        await db.runAsync(
+          'INSERT INTO tracking_settings (id, enabled) VALUES (1, ?) ON CONFLICT(id) DO UPDATE SET enabled = excluded.enabled',
+          enabled ? 1 : 0,
+        );
+      } finally {
+        await db.closeAsync();
+      }
+    });
+  preferenceTransition = pending.catch(() => {});
+  return pending;
+}
+async function desiredTracking() {
+  await preferenceTransition;
+  const db = await database();
+  try {
+    return (
+      (
+        await db.getFirstAsync<LocationTrackingState>(
+          'SELECT enabled FROM tracking_settings WHERE id = 1',
+        )
+      )?.enabled === 1
+    );
+  } finally {
+    await db.closeAsync();
   }
 }
 async function record(samples: number) {
@@ -86,6 +119,17 @@ export function defineBackgroundLocation() {
     const points = parsed.data.locations;
     if (!points.length) return;
     try {
+      if (!(await desiredTracking())) {
+        await serialized(async () => {
+          if (
+            !(await desiredTracking()) &&
+            (await Location.hasStartedLocationUpdatesAsync(taskName))
+          )
+            await Location.stopLocationUpdatesAsync(taskName);
+        });
+        return;
+      }
+      if (epoch !== generation || deliveryBlocked) return;
       await record(points.length);
       if (epoch !== generation || deliveryBlocked) return;
       const point = points[points.length - 1];
@@ -110,13 +154,20 @@ export function stopBackgroundLocation() {
   generation++;
   deliveryBlocked = true;
   latest.set(null);
+  const optOut = setDesiredTracking(false);
   return serialized(async () => {
     try {
-      if (await Location.hasStartedLocationUpdatesAsync(taskName))
-        await Location.stopLocationUpdatesAsync(taskName);
+      try {
+        await optOut;
+      } finally {
+        if (await Location.hasStartedLocationUpdatesAsync(taskName))
+          await Location.stopLocationUpdatesAsync(taskName);
+      }
       status.set('Background location tracking stopped. In-memory coordinates cleared.');
     } catch (error) {
-      status.set('Background location could not stop. Disable location access in Settings.');
+      status.set(
+        'Background location cleanup was incomplete. Disable location access in Settings.',
+      );
       Alert.alert('Location cleanup failed', status());
       throw error;
     }
@@ -135,6 +186,7 @@ export function useBackgroundLocation() {
         run: async () => ({
           defined: TaskManager.isTaskDefined(taskName),
           tracking: await Location.hasStartedLocationUpdatesAsync(taskName),
+          desiredTracking: await desiredTracking(),
           foregroundPermission: await Location.getForegroundPermissionsAsync(),
           backgroundPermission: await Location.getBackgroundPermissionsAsync(),
           servicesEnabled: await Location.hasServicesEnabledAsync(),
@@ -196,6 +248,17 @@ export function useBackgroundLocation() {
               throw new Error(
                 'Late location activation released because the screen or session changed.',
               );
+            }
+            try {
+              await setDesiredTracking(true);
+              check();
+            } catch (error) {
+              try {
+                await setDesiredTracking(false);
+              } finally {
+                await Location.stopLocationUpdatesAsync(taskName);
+              }
+              throw error;
             }
             deliveryBlocked = false;
             status.set(

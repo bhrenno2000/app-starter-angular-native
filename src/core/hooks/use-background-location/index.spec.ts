@@ -5,6 +5,7 @@ import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { defineBackgroundLocation, stopBackgroundLocation, useBackgroundLocation } from './index';
 const native = vi.hoisted(() => ({
   running: false,
+  enabled: false,
   platform: { OS: 'ios' },
   define: vi.fn(),
   defined: vi.fn(),
@@ -21,6 +22,7 @@ const native = vi.hoisted(() => ({
     runAsync: vi.fn(),
     withTransactionAsync: vi.fn(),
     getAllAsync: vi.fn(),
+    getFirstAsync: vi.fn(),
     closeAsync: vi.fn(),
   },
 }));
@@ -59,6 +61,7 @@ afterEach(async () => {
 beforeEach(() => {
   vi.resetAllMocks();
   native.running = false;
+  native.enabled = false;
   native.platform.OS = 'ios';
   native.defined.mockReturnValue(true);
   native.available.mockResolvedValue(true);
@@ -73,7 +76,11 @@ beforeEach(() => {
   });
   native.open.mockResolvedValue(native.db);
   native.db.execAsync.mockResolvedValue(undefined);
-  native.db.runAsync.mockResolvedValue({ changes: 1 });
+  native.db.runAsync.mockImplementation(async (sql: string, ...args: unknown[]) => {
+    if (sql.startsWith('INSERT INTO tracking_settings')) native.enabled = args[0] === 1;
+    return { changes: 1 };
+  });
+  native.db.getFirstAsync.mockImplementation(async () => ({ enabled: native.enabled ? 1 : 0 }));
   native.db.closeAsync.mockResolvedValue(undefined);
   native.db.getAllAsync.mockResolvedValue([]);
   native.db.withTransactionAsync.mockImplementation(async (operation: () => Promise<void>) =>
@@ -179,8 +186,12 @@ test('native callback persists counts only, exposes memory coordinates and clear
     latitude: 12.34,
     longitude: 56.78,
   });
-  expect(native.db.runAsync.mock.calls[0].slice(1)).toEqual([expect.any(String), 1]);
-  expect(native.db.closeAsync).toHaveBeenCalledOnce();
+  expect(
+    native.db.runAsync.mock.calls
+      .find((call) => String(call[0]).startsWith('INSERT INTO arrivals'))
+      ?.slice(1),
+  ).toEqual([expect.any(String), 1]);
+  expect(native.db.closeAsync).toHaveBeenCalledTimes(native.open.mock.calls.length);
   await demo.perform('stop');
   expect(JSON.parse(demo.reading()).latestLocation).toBeNull();
 });
@@ -188,12 +199,14 @@ test('invalid and post-stop payloads cannot update coordinates or write history'
   const execute = callback();
   const { demo } = await setup();
   await demo.perform('start');
+  native.open.mockClear();
   await execute({
     data: { locations: [{ ...point, coords: { ...point.coords, latitude: 100 } }] },
     error: null,
   });
   expect(native.open).not.toHaveBeenCalled();
   await demo.perform('stop');
+  native.open.mockClear();
   await execute({ data: { locations: [point] }, error: null });
   expect(native.open).not.toHaveBeenCalled();
 });
@@ -205,6 +218,7 @@ test('failed native stop blocks delivery and presents actionable cleanup failure
   await demo.perform('stop');
   expect(demo.error()).toContain('Native stop failed');
   expect(native.alert).toHaveBeenCalled();
+  native.open.mockClear();
   await execute({ data: { locations: [point] }, error: null });
   expect(native.open).not.toHaveBeenCalled();
 });
@@ -218,4 +232,35 @@ test('Android tracking requests a visible foreground service', async () => {
       foregroundService: expect.objectContaining({ notificationTitle: 'Angular Native location' }),
     }),
   );
+});
+
+test('a fresh runtime does not process a callback after failed stop without durable opt-in', async () => {
+  const { demo } = await setup();
+  await demo.perform('start');
+  native.stop.mockRejectedValue(new Error('Native stop failed'));
+  await demo.perform('stop');
+  vi.resetModules();
+  native.define.mockClear();
+  native.defined.mockReturnValue(false);
+  const fresh = await import('./index');
+  fresh.defineBackgroundLocation();
+  native.defined.mockReturnValue(true);
+  native.db.runAsync.mockClear();
+  await native.define.mock.calls[0][1]({ data: { locations: [point] }, error: null });
+  expect(
+    native.db.runAsync.mock.calls.filter((call) =>
+      String(call[0]).startsWith('INSERT INTO arrivals'),
+    ),
+  ).toHaveLength(0);
+});
+
+test('failed opt-out persistence still attempts to stop native tracking', async () => {
+  const { demo } = await setup();
+  await demo.perform('start');
+  native.db.runAsync.mockRejectedValue(new Error('Intent write failed'));
+  await demo.perform('stop');
+  expect(native.stop).toHaveBeenCalled();
+  expect(native.running).toBe(false);
+  expect(demo.error()).toContain('Intent write failed');
+  native.db.runAsync.mockResolvedValue({ changes: 1 });
 });

@@ -9,3 +9,7 @@ export interface LocationArrival {
   receivedAt: string;
   samples: number;
 }
+
+export interface LocationTrackingState {
+  enabled: number;
+}
