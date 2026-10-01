@@ -1,3 +1,4 @@
+import { provideAppLinks } from '../app-links';
 import { provideAppIcons } from '../icons';
 import { provideNotificationCenter } from '../notifications';
 import { provideNotificationInitializer } from '@/core/initializers/notifications';
@@ -10,6 +11,7 @@ import { provideQueryClientInitializer } from '@/core/initializers/query-client'
 import { provideThemeInitializer } from '@/core/initializers/theme';
 export function provideApplication() {
   return [
+    provideAppLinks(),
     provideAppIcons(),
     provideNativeQueries(),
     provideNotificationCenter(),

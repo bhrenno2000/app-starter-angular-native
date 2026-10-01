@@ -13,6 +13,7 @@ const native = vi.hoisted(() => ({
   browser: vi.fn(),
   canOpen: vi.fn(),
   open: vi.fn(),
+  clipboard: vi.fn(),
 }));
 vi.mock('react-native', () => ({ Platform: native.platform }));
 vi.mock('expo-mail-composer', () => ({
@@ -20,6 +21,7 @@ vi.mock('expo-mail-composer', () => ({
   composeAsync: native.compose,
   getClients: native.clients,
 }));
+vi.mock('expo-clipboard', () => ({ setStringAsync: native.clipboard }));
 vi.mock('expo-sms', () => ({ isAvailableAsync: native.smsAvailable, sendSMSAsync: native.sms }));
 vi.mock('expo-web-browser', () => ({ openBrowserAsync: native.browser }));
 vi.mock('expo-linking', () => ({ canOpenURL: native.canOpen, openURL: native.open }));

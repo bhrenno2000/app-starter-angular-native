@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import * as Mail from 'expo-mail-composer';
 import * as SMS from 'expo-sms';
+import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
 import * as Browser from 'expo-web-browser';
 import { useNativeTask } from '@/core/hooks/use-native-task';
@@ -8,6 +9,14 @@ import { useScreenLifecycle } from '@/core/hooks/use-screen-lifecycle';
 export function useCommunication() {
   const lifecycle = useScreenLifecycle(() => {});
   return useNativeTask([
+    {
+      id: 'copy-app-link',
+      label: 'Copy showcase deep link',
+      run: async () => {
+        await Clipboard.setStringAsync('appstarterangular://showcase/communication');
+        return 'Copied appstarterangular://showcase/communication. Open this URL outside the app to test incoming links. Protected destinations require sign-in.';
+      },
+    },
     {
       id: 'availability',
       label: 'Inspect communication capabilities',

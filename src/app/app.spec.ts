@@ -1,6 +1,9 @@
 import { cleanup, render, screen, userEvent, waitFor } from '@ng-native/testing';
+import { DebugElement, getDebugNode } from '@angular/core';
+import { NativeStackOutlet } from '@ng-native/router';
+import { appLinkParent } from '@/modules/showcase/utils/app-link';
 import { Router } from '@angular/router';
-import { provideNativeRouter } from '@ng-native/router';
+import { provideNativeRouter, withLinkParent } from '@ng-native/router';
 import { afterEach, expect, test } from 'vitest';
 import { APP_STORAGE } from '@/core/storage/app-storage';
 import { MemoryStorage } from '@/core/testing/memory-storage';
@@ -16,7 +19,7 @@ async function setup(storage = new MemoryStorage()) {
   return render(App, {
     providers: [
       provideAppIcons(),
-      provideNativeRouter(routes),
+      provideNativeRouter(routes, withLinkParent(appLinkParent)),
       provideThemeInitializer(),
       { provide: APP_STORAGE, useValue: storage },
       { provide: AUTH_BACKEND, useValue: new MockAuthBackend() },
@@ -57,4 +60,25 @@ test('redirects an unknown showcase category before loading native SDKs', async 
   await router.navigateByUrl('/showcase/not-a-demo');
   expect(await screen.findByText('Native showcase')).toBeTruthy();
   expect(router.url).toBe('/showcase');
+});
+
+test('resumes a protected catalogue destination after login with home beneath it', async () => {
+  const { componentRef } = await setup();
+  const router = componentRef.injector.get(Router);
+  await router.navigateByUrl('/showcase');
+  expect(await screen.findByText('Welcome back')).toBeTruthy();
+  expect(router.parseUrl(router.url).queryParams['returnTo']).toBe('/showcase');
+  const debug = getDebugNode(componentRef.location.nativeElement);
+  const stack = (debug as DebugElement)
+    .query((node) => node.providerTokens.includes(NativeStackOutlet))
+    .injector.get(NativeStackOutlet);
+  const user = userEvent.setup();
+  await user.type(screen.getByLabelText('Password'), 'password');
+  await user.press(screen.getByRole('button', { name: 'Sign in' }));
+  expect(await screen.findByText('Native showcase')).toBeTruthy();
+  await waitFor(() => expect(router.url).toBe('/showcase'));
+  expect(stack.depth).toBe(2);
+  await user.press(screen.getByRole('button', { name: 'Back to home' }));
+  expect(await screen.findByText('Mock User')).toBeTruthy();
+  await waitFor(() => expect(router.url).toBe('/home'));
 });
