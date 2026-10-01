@@ -90,7 +90,11 @@ Sources: [Expo SDK](https://docs.expo.dev/versions/latest/), [TanStack Angular Q
 
 File demonstrations write/read/list app-owned documents, copy the demo file, move it into a subfolder, download and preview a small public Expo package manifest, and open native sharing/PDF sheets. Download requests time out after 20 seconds and abort when the screen loses focus or enters the background. A failed request leaves the previously downloaded document intact.
 
+TanStack demonstrations expose query cache inspection, a deliberate HTTP error, and a simulated JSONPlaceholder mutation. These explicit network actions reject a known offline state, time out after 15 seconds, and cancel client waits when their screen becomes inactive. They use `networkMode: always` after the connectivity guard so a connectivity change cannot silently queue the demonstration. The manually disabled query is marked stale by mutation/invalidation and refetches through its explicit fetch action. Zustand counter and Maps favorites persist in encrypted MMKV; Query cache remains in memory.
+
 ## Application setup
+
+Metro defaults to one development bundle (`EXPO_NO_METRO_LAZY=1`) to avoid dynamic fragment requests in the native development client. Angular feature routes still use `loadChildren` and `loadComponent`. An intermittent first transition during simulator automation remains under investigation; full bundling did not eliminate it.
 
 Provider factories live in `src/core/providers/<name>/index.ts`; `application/index.ts` composes the application DI configuration. The Safe Area context lives in `providers/safe-area/index.ts` with its external `index.html` template. Startup tasks live in `src/core/initializers/<name>/index.ts`: native runtime/view registration, awaited font loading, theme restoration, TanStack online/focus synchronization and notification listeners. `app.config.ts` only consumes the provider composition, and `main.ts` only invokes the native runtime initializer.
 

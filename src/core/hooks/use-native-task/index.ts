@@ -27,7 +27,15 @@ export function useNativeTask(actions: readonly NativeAction[]): NativeTask {
           );
       } catch (cause) {
         if (!disposed)
-          error.set(cause instanceof Error ? cause.message : 'This action could not be completed.');
+          error.set(
+            typeof cause === 'object' &&
+              cause !== null &&
+              'message' in cause &&
+              typeof cause.message === 'string' &&
+              cause.message.trim()
+              ? cause.message
+              : 'This action could not be completed.',
+          );
       } finally {
         if (!disposed) busy.set(null);
       }

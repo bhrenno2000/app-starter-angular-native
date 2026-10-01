@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, InjectionToken, inject } from '@angular/core';
 import { cleanup, render } from '@ng-native/testing';
 import { afterEach, expect, test, vi } from 'vitest';
@@ -73,4 +74,24 @@ test('does not publish asynchronous results after its owner is destroyed', async
   finish('Late result');
   await pending;
   expect(task.output()).toBe('Run a demonstration to see its result.');
+});
+
+test('preserves Angular HTTP error messages that are not native Error instances', async () => {
+  const failure = new HttpErrorResponse({
+    status: 404,
+    statusText: 'Not Found',
+    url: 'https://example.test/missing',
+  });
+  expect(failure).not.toBeInstanceOf(Error);
+  const { componentRef } = await render(Host, {
+    providers: [
+      {
+        provide: ACTIONS,
+        useValue: [{ id: 'http', label: 'HTTP error', run: () => Promise.reject(failure) }],
+      },
+    ],
+  });
+  await componentRef.instance.task.perform('http');
+  expect(componentRef.instance.task.error()).toBe(failure.message);
+  expect(componentRef.instance.task.busy()).toBeNull();
 });

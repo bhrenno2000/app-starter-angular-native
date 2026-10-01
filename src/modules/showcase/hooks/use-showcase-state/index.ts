@@ -1,4 +1,4 @@
-import { DestroyRef, InjectionToken, inject, signal } from '@angular/core';
+import { DestroyRef, InjectionToken, computed, inject, signal } from '@angular/core';
 import { createStore } from 'zustand/vanilla';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { APP_STORAGE } from '@/core/storage/app-storage';
@@ -42,6 +42,9 @@ export function useShowcaseState() {
   inject(DestroyRef).onDestroy(store.subscribe((value) => state.set(value)));
   return {
     state: state.asReadonly(),
+    reading: computed(() =>
+      JSON.stringify({ counter: state().counter, favorites: state().favorites }, null, 2),
+    ),
     toggleFavorite: (id: string) => store.getState().toggleFavorite(id),
     ...useNativeTask([
       {
@@ -54,6 +57,14 @@ export function useShowcaseState() {
             storage: 'Encrypted MMKV',
             state: 'Zustand vanilla',
           };
+        },
+      },
+      {
+        id: 'favorite',
+        label: 'Toggle persisted Maps favorite',
+        run: () => {
+          store.getState().toggleFavorite('maps');
+          return { counter: store.getState().counter, favorites: store.getState().favorites };
         },
       },
       {
