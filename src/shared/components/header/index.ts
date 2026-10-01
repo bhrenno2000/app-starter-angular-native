@@ -1,6 +1,6 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Pressable, Text, View } from '@ng-native/components';
-import { NativeNavigation } from '@ng-native/router';
+import { useNavigation } from '@/core/hooks/use-navigation';
 import { Icon } from '../icon/index';
 @Component({
   selector: 'app-header',
@@ -8,7 +8,7 @@ import { Icon } from '../icon/index';
   templateUrl: './index.html',
 })
 export class Header {
-  protected readonly navigation = inject(NativeNavigation);
+  protected readonly navigation = useNavigation();
   readonly title = input('');
   readonly showBack = input(false);
 }

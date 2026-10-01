@@ -1,0 +1,48 @@
+<safe-area-view class="flex-1 bg-background">
+  <app-page-header title="Native showcase" [canGoBack]="false" />
+  <scroll-view class="flex-1">
+    <view class="gap-3 px-4 pt-4 pb-2">
+      <app-input
+        testId="showcase-search"
+        label="Search capabilities"
+        placeholder="Camera, maps, files..."
+        [value]="showcase.search()"
+        (valueChange)="showcase.search.set($event)"
+      />
+      <text class="text-sm text-muted">
+        Showing {{ showcase.filteredCategories().length }} of
+        {{ showcase.categories.length }} capabilities
+      </text>
+      @if (showcase.search()) {
+        <app-button label="Clear search" variant="outline" (pressed)="showcase.clearSearch()" />
+      }
+      @if (showcase.error()) {
+        <text accessibilityRole="alert" class="mt-2 text-sm text-danger">
+          {{ showcase.error() }}
+        </text>
+      }
+    </view>
+    <view class="gap-6 px-4 pt-4 pb-6">
+      <view class="gap-2">
+        <app-typography variant="muted">
+          Explore real device capabilities powered by Angular.
+        </app-typography>
+      </view>
+      @if (!showcase.filteredCategories().length) {
+        <app-typography variant="muted">No capabilities match your search.</app-typography>
+      }
+      @for (category of showcase.filteredCategories(); track category.id) {
+        <app-card>
+          <view class="gap-3">
+            <app-typography variant="heading">{{ category.title }}</app-typography>
+            <app-typography variant="muted">{{ category.description }}</app-typography>
+            <app-button
+              [label]="'Explore ' + category.title"
+              (pressed)="showcase.open(category.id)"
+            />
+          </view>
+        </app-card>
+      }
+    </view>
+  </scroll-view>
+</safe-area-view>

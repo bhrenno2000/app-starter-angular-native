@@ -6,15 +6,24 @@ import { SECURE_KEYS, MMKV_KEYS } from '@/core/storage/keys';
 import { MemoryStorage } from '@/core/testing/memory-storage';
 import { AUTH_BACKEND } from '../auth-backend/service';
 import { MockAuthBackend } from '../mock-auth-backend/service';
+import { SESSION_RESOURCE_CLEANUP } from '@/core/hooks/use-session-cleanup';
+import type { SessionResourceCleanup } from '@/core/hooks/use-session-cleanup/types';
 import { AuthSession } from './service';
 @Component({ selector: 'test-session', template: '' })
 class SessionHost {}
 afterEach(cleanup);
-async function setup(storage = new MemoryStorage(), backend = new MockAuthBackend()) {
+async function setup(
+  storage = new MemoryStorage(),
+  backend = new MockAuthBackend(),
+  resourceCleanup?: SessionResourceCleanup,
+) {
   const result = await render(SessionHost, {
     providers: [
       { provide: APP_STORAGE, useValue: storage },
       { provide: AUTH_BACKEND, useValue: backend },
+      ...(resourceCleanup
+        ? [{ provide: SESSION_RESOURCE_CLEANUP, useValue: resourceCleanup }]
+        : []),
     ],
   });
   return { session: result.componentRef.injector.get(AuthSession), storage, backend };
@@ -90,4 +99,24 @@ test('a failed restore cannot clear a newer successful login', async () => {
   await restoring;
   expect(state.session.user()?.email).toBe('new@example.com');
   expect(state.storage.secrets.get(SECURE_KEYS.refreshToken)).toBe('mock:new@example.com');
+});
+
+test('logout cleans application-owned location before calling the remote backend', async () => {
+  const release = vi.fn().mockResolvedValue(undefined);
+  const state = await setup(new MemoryStorage(), new MockAuthBackend(), release);
+  await state.session.login({ email: 'ada@example.com', password: 'password' });
+  vi.spyOn(state.backend, 'logout').mockImplementation(async () => {
+    expect(release).toHaveBeenCalledOnce();
+    expect(state.session.authenticated()).toBe(false);
+  });
+  await state.session.logout();
+});
+test('resource cleanup failure still clears credentials and local authentication', async () => {
+  const state = await setup(new MemoryStorage(), new MockAuthBackend(), async () => {
+    throw new Error('Location stop failed');
+  });
+  await state.session.login({ email: 'ada@example.com', password: 'password' });
+  await expect(state.session.logout()).rejects.toThrow('Location stop failed');
+  expect(state.session.authenticated()).toBe(false);
+  expect(state.storage.secrets.has(SECURE_KEYS.refreshToken)).toBe(false);
 });
