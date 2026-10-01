@@ -35,9 +35,9 @@ This is a port of the starter's main flows. The original standalone device-secre
 
 ```text
 src/
-  app/        shell, providers and routes
-  core/       HTTP, environment, storage and theme infrastructure
-  modules/    auth and home features
+  app/        shell, application configuration and routes
+  core/       providers, initializers, HTTP, storage and theme
+  modules/    auth, home and native showcase features
   shared/     reusable components, models and utilities
   main.ts     native bootstrap
 ```
@@ -100,7 +100,7 @@ Communication actions check native email/SMS availability, inspect installed mai
 
 Metro defaults to one development bundle (`EXPO_NO_METRO_LAZY=1`) to avoid dynamic fragment requests in the native development client. Angular feature routes still use `loadChildren` and `loadComponent`. An intermittent first transition during simulator automation remains under investigation; full bundling did not eliminate it.
 
-Provider factories live in `src/core/providers/<name>/index.ts`; `application/index.ts` composes the application DI configuration. The Safe Area context lives in `providers/safe-area/index.ts` with its external `index.html` template. Startup tasks live in `src/core/initializers/<name>/index.ts`: native runtime/view registration, awaited font loading, theme restoration, TanStack online/focus synchronization and notification listeners. `app.config.ts` only consumes the provider composition, and `main.ts` only invokes the native runtime initializer.
+Provider factories live in `src/core/providers/<name>/index.ts`; `application/index.ts` composes the application DI configuration, including the shared icon registry. The Safe Area context lives in `providers/safe-area/index.ts` with its external `index.html` template. Startup tasks live in `src/core/initializers/<name>/index.ts`: native runtime/view registration, awaited font loading, theme restoration, TanStack online/focus synchronization and notification listeners. `app.config.ts` only consumes the provider composition, and `main.ts` only invokes the native runtime initializer.
 
 The video demo includes a six-second animated Angular logo clip derived from the app artwork, so playback works offline. Native actions suspend when their screen loses focus or the app enters the background; pending activation checks prevent late permission/location results from starting hidden hardware listeners.
 

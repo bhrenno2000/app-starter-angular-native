@@ -1,3 +1,4 @@
+import { provideAppIcons } from '../icons';
 import { provideNotificationCenter } from '../notifications';
 import { provideNotificationInitializer } from '@/core/initializers/notifications';
 import { provideNativeQueries } from '../query-client';
@@ -9,6 +10,7 @@ import { provideQueryClientInitializer } from '@/core/initializers/query-client'
 import { provideThemeInitializer } from '@/core/initializers/theme';
 export function provideApplication() {
   return [
+    provideAppIcons(),
     provideNativeQueries(),
     provideNotificationCenter(),
     provideNotificationInitializer(),
