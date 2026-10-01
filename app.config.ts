@@ -38,7 +38,16 @@ const config: ExpoConfig = {
     },
   },
   plugins: [
+    './plugins/native-status-bar/index.cjs',
     '@ng-native/metro',
+    [
+      'react-native-ble-plx',
+      {
+        isBackgroundEnabled: false,
+        bluetoothAlwaysPermission:
+          'Discover and connect to BLE peripherals only when you run the Bluetooth demonstration.',
+      },
+    ],
     'expo-asset',
     ['expo-maps', { requestLocationPermission: false }],
     [

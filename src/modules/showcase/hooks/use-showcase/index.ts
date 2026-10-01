@@ -3,6 +3,12 @@ import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
   {
+    id: 'bluetooth',
+    title: 'Bluetooth BLE',
+    description:
+      'Bounded scanning, selected peripheral connections, GATT discovery, reading and native updates.',
+  },
+  {
     id: 'layout-motion',
     title: 'Motion & layout',
     description:

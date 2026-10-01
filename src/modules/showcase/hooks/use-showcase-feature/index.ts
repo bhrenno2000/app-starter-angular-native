@@ -1,3 +1,4 @@
+import { useBle } from '../use-ble';
 import { useLayoutMotion } from '../use-layout-motion';
 import { useCommunication } from '../use-communication';
 import { useCalendar } from '../use-calendar';
@@ -27,6 +28,7 @@ import { findShowcaseCategory } from '../use-showcase';
 import type { NativeFeature } from './types';
 const factories: Readonly<Record<string, () => NativeFeature>> = {
   'layout-motion': useLayoutMotion,
+  bluetooth: useBle,
   gallery: useGallery,
   calendar: useCalendar,
   communication: useCommunication,
