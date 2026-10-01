@@ -139,7 +139,6 @@ export function useNfc() {
         status.set('NDEF tag read. Text and URI records are displayed without opening links.');
         return preview;
       } finally {
-        // A late native request must close even after the outer timeout/cancellation wins.
         requested = true;
         await close();
       }
