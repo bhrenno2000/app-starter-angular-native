@@ -3,6 +3,12 @@ import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
   {
+    id: 'background-location',
+    title: 'Background location',
+    description:
+      'Explicit tracking, foreground/background permissions and private callback metadata history.',
+  },
+  {
     id: 'background',
     title: 'Background tasks',
     description:

@@ -1,3 +1,4 @@
+import { useBackgroundLocation } from '@/core/hooks/use-background-location';
 import { useBackgroundTask } from '@/core/hooks/use-background-task';
 import { useNfc } from '../use-nfc';
 import { useBle } from '../use-ble';
@@ -33,6 +34,7 @@ const factories: Readonly<Record<string, () => NativeFeature>> = {
   bluetooth: useBle,
   nfc: useNfc,
   background: useBackgroundTask,
+  'background-location': useBackgroundLocation,
   gallery: useGallery,
   calendar: useCalendar,
   communication: useCommunication,

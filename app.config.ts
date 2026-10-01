@@ -86,6 +86,12 @@ const config: ExpoConfig = {
       'expo-location',
       {
         locationWhenInUsePermission: 'Show your location when you run the location demonstration.',
+        locationAlwaysAndWhenInUsePermission:
+          'Continue the location demonstration in the background only after you start it.',
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true,
+        isAndroidForegroundServiceEnabled: true,
+        androidForegroundServiceIcon: `${assets}/android-icon-monochrome.png`,
       },
     ],
     [
