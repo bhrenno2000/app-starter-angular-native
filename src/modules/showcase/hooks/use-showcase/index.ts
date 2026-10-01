@@ -48,6 +48,11 @@ const categories: readonly ShowcaseCategory[] = [
     description: 'Parameterized SQL and persistent native database records.',
   },
   {
+    id: 'communication',
+    title: 'Communication & links',
+    description: 'Email/SMS drafts, native browser presentation and external app links.',
+  },
+  {
     id: 'calendar',
     title: 'Calendar & reminders',
     description: 'Event queries, owned demo calendars/events, native editor and iOS reminders.',

@@ -1,3 +1,4 @@
+import { useCommunication } from '../use-communication';
 import { useCalendar } from '../use-calendar';
 import { useGallery } from '../use-gallery';
 import { useScreenControls } from '../use-screen-controls';
@@ -26,6 +27,7 @@ import type { NativeFeature } from './types';
 const factories: Readonly<Record<string, () => NativeFeature>> = {
   gallery: useGallery,
   calendar: useCalendar,
+  communication: useCommunication,
   'screen-controls': useScreenControls,
   maps: useMaps,
   'web-view': useWebView,

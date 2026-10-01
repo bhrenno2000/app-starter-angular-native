@@ -85,6 +85,7 @@ const config: ExpoConfig = {
     ['expo-sensors', { motionPermission: 'Read motion and steps for the sensor demonstration.' }],
     'expo-notifications',
     'expo-sharing',
+    'expo-mail-composer',
     'expo-audio',
     'expo-video',
     'expo-web-browser',
