@@ -1,7 +1,6 @@
 {
   "name": "app-starter-angular-native",
   "version": "0.1.0",
-  "license": "MIT",
   "main": "src/main.ts",
   "dependencies": {
     "@angular/common": "22.2.1",
