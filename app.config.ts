@@ -48,6 +48,10 @@ const config: ExpoConfig = {
           'Discover and connect to BLE peripherals only when you run the Bluetooth demonstration.',
       },
     ],
+    [
+      'react-native-nfc-manager',
+      { nfcPermission: 'Read an NDEF tag only when you start the NFC demonstration.' },
+    ],
     'expo-asset',
     ['expo-maps', { requestLocationPermission: false }],
     [

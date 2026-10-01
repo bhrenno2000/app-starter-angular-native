@@ -3,6 +3,11 @@ import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
   {
+    id: 'nfc',
+    title: 'NFC tags',
+    description: 'Inspect support, read NDEF text/URI records and cancel foreground tag sessions.',
+  },
+  {
     id: 'bluetooth',
     title: 'Bluetooth BLE',
     description:

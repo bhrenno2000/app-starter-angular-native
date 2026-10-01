@@ -53,6 +53,34 @@
           />
         }
       </view>
+      @if (showcase.demo.nfc; as nfc) {
+        <app-card>
+          <view class="gap-3">
+            <app-typography variant="heading">NFC session</app-typography>
+            <app-button
+              label="Cancel NFC reading"
+              variant="outline"
+              [disabled]="!nfc.scanning()"
+              (pressed)="nfc.cancel()"
+            />
+            @if (nfc.tag(); as tag) {
+              <text selectable class="text-sm text-foreground">
+                Tag {{ tag.id ?? 'unknown' }} · {{ tag.type ?? 'unknown' }}
+              </text>
+              <text class="text-sm text-muted">
+                {{ tag.recordsTotal }} records; showing up to 16. Payload hex is limited to 512
+                bytes per record.
+              </text>
+              @for (record of tag.records; track $index) {
+                <text selectable class="text-sm text-foreground">
+                  {{ record.kind }}: {{ record.value }}
+                </text>
+                <text selectable class="text-sm text-muted">Hex: {{ record.payloadHex }}</text>
+              }
+            }
+          </view>
+        </app-card>
+      }
       @if (showcase.demo.ble; as ble) {
         <app-card>
           <view class="gap-3">

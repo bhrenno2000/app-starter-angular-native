@@ -1,3 +1,4 @@
+import { useNfc } from '../use-nfc';
 import { useBle } from '../use-ble';
 import { useLayoutMotion } from '../use-layout-motion';
 import { useCommunication } from '../use-communication';
@@ -29,6 +30,7 @@ import type { NativeFeature } from './types';
 const factories: Readonly<Record<string, () => NativeFeature>> = {
   'layout-motion': useLayoutMotion,
   bluetooth: useBle,
+  nfc: useNfc,
   gallery: useGallery,
   calendar: useCalendar,
   communication: useCommunication,

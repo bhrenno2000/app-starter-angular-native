@@ -71,6 +71,7 @@
         "react-native": "0.86.3",
         "react-native-ble-plx": "3.5.1",
         "react-native-mmkv": "^4.3.2",
+        "react-native-nfc-manager": "4.0.0-beta.9",
         "react-native-nitro-modules": "^0.36.5",
         "react-native-safe-area-context": "~5.7.0",
         "react-native-screens": "~4.26.0",
@@ -1344,6 +1345,8 @@
     "react-native-ble-plx": ["react-native-ble-plx@3.5.1", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-SxksmrUt9jG6DOarrrdkb5c/HBLSfZOKauo/9VQSSi3WJA4bmF78GkrtXrgSoGNk0m1ksacFTjB5DuL39xZq/g=="],
 
     "react-native-mmkv": ["react-native-mmkv@4.3.2", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": "*" } }, "sha512-49OAyfkg0/TMWiWELZN6VuVQPZPhizwL4DTmp8b7B1md3dB/s3LH3mGfC3T+lp9W0y/rqxZMEnotLFTIbOAenQ=="],
+
+    "react-native-nfc-manager": ["react-native-nfc-manager@4.0.0-beta.9", "", { "peerDependencies": { "@expo/config-plugins": "*", "react": ">=18.2", "react-native": ">=0.76" }, "optionalPeers": ["@expo/config-plugins"] }, "sha512-Yol6NNYU1bLLVXUAdhVlZMXUpJe7eu2SL3JtgOBaemHYzNlhQugfT7ggkF2UXVKn1JUqjbSeopdZ+1Wlqwo8SQ=="],
 
     "react-native-nitro-modules": ["react-native-nitro-modules@0.36.5", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-SJby84+hovD70JmQ1fq+56tw3oapJeChehUqXA4Gqjm+ktJhMAcj8LGwoAjStSOUwRaK7czbzBPB0Widj+EDoQ=="],
 

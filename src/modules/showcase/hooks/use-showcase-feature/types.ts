@@ -1,3 +1,4 @@
+import type { useNfc } from '../use-nfc';
 import type { useBle } from '../use-ble';
 import type { useLayoutMotion } from '../use-layout-motion';
 import type { useMaps } from '../use-maps';
@@ -6,6 +7,7 @@ import type { useCamera } from '../use-camera';
 import type { Signal } from '@angular/core';
 import type { NativeTask } from '@/core/hooks/use-native-task/types';
 export interface NativeFeature extends NativeTask {
+  nfc?: ReturnType<typeof useNfc>['nfc'];
   ble?: ReturnType<typeof useBle>['ble'];
   layout?: ReturnType<typeof useLayoutMotion>['layout'];
   map?: ReturnType<typeof useMaps>['map'];
