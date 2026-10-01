@@ -1,3 +1,4 @@
+import { useLayoutMotion } from '../use-layout-motion';
 import { useCommunication } from '../use-communication';
 import { useCalendar } from '../use-calendar';
 import { useGallery } from '../use-gallery';
@@ -25,6 +26,7 @@ import { NativeNavigation } from '@ng-native/router';
 import { findShowcaseCategory } from '../use-showcase';
 import type { NativeFeature } from './types';
 const factories: Readonly<Record<string, () => NativeFeature>> = {
+  'layout-motion': useLayoutMotion,
   gallery: useGallery,
   calendar: useCalendar,
   communication: useCommunication,

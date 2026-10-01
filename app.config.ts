@@ -18,7 +18,10 @@ const config: ExpoConfig = {
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.bhrenno.appstarterangular',
-    infoPlist: { ITSAppUsesNonExemptEncryption: false },
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+      UIViewControllerBasedStatusBarAppearance: false,
+    },
   },
   android: {
     package: 'com.bhrenno.appstarterangular',

@@ -1,3 +1,4 @@
+import { provideStatusBarInitializer } from '@/core/initializers/status-bar';
 import { provideAppLinks } from '../app-links';
 import { provideAppIcons } from '../icons';
 import { provideNotificationCenter } from '../notifications';
@@ -21,6 +22,7 @@ export function provideApplication() {
     provideAppAuth(),
     provideAppStorage(),
     provideThemeInitializer(),
+    provideStatusBarInitializer(),
     provideQueryClientInitializer(),
   ];
 }

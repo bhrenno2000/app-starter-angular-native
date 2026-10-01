@@ -121,3 +121,9 @@ Custom schemes are configured already. HTTPS Universal Links/App Links require a
 References: [Expo Linking](https://docs.expo.dev/versions/latest/sdk/linking/), [linking into your app](https://docs.expo.dev/linking/into-your-app/).
 
 Startup splash ownership lives in `core/initializers/splash`: hold the splash while fonts load, then hide it after the first successful Angular navigation and render. Simulator Release builds require local ad hoc signing (`CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=-`) to retain SecureStore access to the existing MMKV encryption key. An unsigned build failed Keychain access; rebuilding with signing restored startup without clearing keys or app data.
+
+## Motion and system chrome
+
+The Motion & layout category animates translation and opacity through React Native `Animated` with `useNativeDriver: true`, bound by the Angular Native `AnimatedStyle` rendering directive. Its hook stops active animations when the screen loses focus, the app backgrounds or the screen is destroyed. Native iOS Release video analysis verified 53 marker positions from x=84 to x=504 pixels during the 900 ms movement. LayoutAnimation panel/row requests remain experimental: state changes passed, but captured Debug/Release video did not prove intermediate layout frames.
+
+Status-bar styling initializes centrally and follows the effective appearance: light content on dark backgrounds and dark content on light backgrounds. iOS is configured for the imperative status-bar API through `UIViewControllerBasedStatusBarAppearance: false`.

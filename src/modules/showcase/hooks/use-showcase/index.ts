@@ -3,6 +3,12 @@ import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
   {
+    id: 'layout-motion',
+    title: 'Motion & layout',
+    description:
+      'Native-driver translation/opacity and experimental native layout animation requests.',
+  },
+  {
     id: 'gallery',
     title: 'Photo library management',
     description: 'Paged asset queries, demo albums, image metadata and favorites.',

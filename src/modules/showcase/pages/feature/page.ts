@@ -1,3 +1,4 @@
+import { AnimatedStyle } from '@ng-native/components/animations';
 import { NativeMap } from '@/shared/components/native-map';
 import { NativeWebView } from '@/shared/components/native-web-view';
 import { NativeCamera } from '@/shared/components/native-camera';
@@ -11,6 +12,7 @@ import { useShowcaseFeature } from '../../hooks/use-showcase-feature';
 @Component({
   selector: 'app-showcase-feature-page',
   imports: [
+    AnimatedStyle,
     NativeMap,
     NativeWebView,
     NativeCamera,
