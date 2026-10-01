@@ -9,5 +9,7 @@ export function initializeNativeViews() {
     messagingEnabled: true,
     domStorageEnabled: true,
   });
-  registerExpoView('app-native-video', 'ExpoVideo', { viewName: 'VideoView' });
+  registerExpoView('app-native-video', 'ExpoVideo', {
+    viewName: Platform.OS === 'android' ? 'TextureVideoView' : 'VideoView',
+  });
 }
