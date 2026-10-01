@@ -5,20 +5,24 @@
       label="Email"
       placeholder="email@example.com"
       keyboardType="email-address"
-      [formField]="loginForm.email"
+      [formField]="auth.loginForm.email"
     />
     <app-input
       label="Password"
       testId="login-password"
       placeholder="••••••••"
       [password]="true"
-      [formField]="loginForm.password"
+      [formField]="auth.loginForm.password"
     />
   </app-form>
-  @if (error()) {
-    <text accessibilityRole="alert" class="text-sm text-danger">{{ error() }}</text>
+  @if (auth.error()) {
+    <text accessibilityRole="alert" class="text-sm text-danger">{{ auth.error() }}</text>
   }
   <app-form footer>
-    <app-button label="Sign in" [loading]="loginForm().submitting()" (pressed)="login()" />
+    <app-button
+      label="Sign in"
+      [loading]="auth.loginForm().submitting()"
+      (pressed)="auth.login()"
+    />
   </app-form>
 </app-form-screen-layout>

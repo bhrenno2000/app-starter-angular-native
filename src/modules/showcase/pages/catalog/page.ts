@@ -1,0 +1,15 @@
+import { Component } from '@angular/core';
+import { SafeAreaView, ScrollView, View } from '@ng-native/components';
+import { Typography } from '@/shared/components/typography';
+import { Button } from '@/shared/components/button';
+import { Card } from '@/shared/components/card';
+import { useShowcase } from '../../hooks/use-showcase';
+@Component({
+  selector: 'app-showcase-catalog-page',
+  imports: [SafeAreaView, ScrollView, View, Typography, Button, Card],
+  templateUrl: './page.html',
+  styles: ':host { flex: 1; }',
+})
+export class ShowcaseCatalogPage {
+  protected readonly showcase = useShowcase();
+}

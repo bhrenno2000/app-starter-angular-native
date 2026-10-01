@@ -1,0 +1,53 @@
+<safe-area-view class="flex-1 bg-background">
+  <scroll-view class="flex-1">
+    <view class="gap-6 px-4 pt-4 pb-6">
+      <app-button label="Back to showcase" variant="outline" (pressed)="showcase.back()" />
+      <view class="gap-2">
+        <app-typography variant="title">{{ showcase.category.title }}</app-typography>
+        <app-typography variant="muted">{{ showcase.category.description }}</app-typography>
+      </view>
+      <view class="gap-3">
+        @for (action of showcase.demo.actions; track action.id) {
+          <app-button
+            [label]="action.label"
+            [disabled]="!!showcase.demo.busy()"
+            [loading]="showcase.demo.busy() === action.id"
+            (pressed)="showcase.demo.perform(action.id)"
+          />
+        }
+      </view>
+      @if (showcase.demo.error()) {
+        <text accessibilityRole="alert" class="text-sm text-danger">
+          {{ showcase.demo.error() }}
+        </text>
+      }
+      @if (showcase.demo.preview?.()) {
+        <image
+          [src]="showcase.demo.preview() ?? ''"
+          resizeMode="contain"
+          class="h-64 w-full rounded-xl"
+          accessibilityLabel="Selected media preview"
+        />
+      }
+      @if (showcase.demo.videoId; as videoId) {
+        @if (videoId() !== null) {
+          <app-native-video [playerId]="videoId()!" class="h-64 w-full rounded-xl" />
+        }
+      }
+      <app-card>
+        <view class="gap-3">
+          <app-typography variant="heading">Result</app-typography>
+          <text selectable class="text-sm text-foreground">{{ showcase.demo.output() }}</text>
+          @if (showcase.demo.reading?.()) {
+            <text selectable class="text-sm text-foreground">{{ showcase.demo.reading() }}</text>
+          }
+          @if (showcase.demo.coordinates?.()) {
+            <text selectable class="text-sm text-foreground">
+              {{ showcase.demo.coordinates() }}
+            </text>
+          }
+        </view>
+      </app-card>
+    </view>
+  </scroll-view>
+</safe-area-view>

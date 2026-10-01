@@ -7,6 +7,7 @@ import { MemoryStorage } from '@/core/testing/memory-storage';
 import { SECURE_KEYS } from '@/core/storage/keys';
 import { AUTH_BACKEND } from '@/modules/auth/services/auth-backend/service';
 import { MockAuthBackend } from '@/modules/auth/services/mock-auth-backend/service';
+import { provideThemeInitializer } from '@/core/initializers/theme';
 import { App } from './app';
 import { routes } from './app.routes';
 afterEach(cleanup);
@@ -14,6 +15,7 @@ async function setup(storage = new MemoryStorage()) {
   return render(App, {
     providers: [
       provideNativeRouter(routes),
+      provideThemeInitializer(),
       { provide: APP_STORAGE, useValue: storage },
       { provide: AUTH_BACKEND, useValue: new MockAuthBackend() },
     ],

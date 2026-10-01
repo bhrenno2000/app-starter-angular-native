@@ -1,12 +1,11 @@
 import type { IconName } from './types';
 import { Component, input } from '@angular/core';
 import { NgIcon } from '@ng-native/icons';
-import { provideIcons } from '@ng-icons/core';
-import { lucideLogOut, lucideChevronLeft } from '@ng-icons/lucide';
+import { provideAppIcons } from '@/core/providers/icons';
 @Component({
   selector: 'app-icon',
   imports: [NgIcon],
-  providers: [provideIcons({ lucideLogOut, lucideChevronLeft })],
+  providers: [provideAppIcons()],
   templateUrl: './index.html',
 })
 export class Icon {

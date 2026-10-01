@@ -22,7 +22,7 @@ Once the development app is installed, use `bun start`. Angular runs through the
 - Lazy-loaded feature route lists in `modules/<feature>/routes/index.ts`, native stacks and awaited session guards.
 - Login, protected home, logout and restoration of a mock session after restart.
 - Signal Forms with email/password validation, loading/disabled/error states.
-- Angular services and signals in place of React hooks, Zustand and React Query.
+- Angular signals and hook facades, TanStack Angular Query for server state, and Zustand vanilla persisted through encrypted MMKV.
 - Native HttpClient with HTTPS configuration, timeout, response validation and deduplicated token refresh on a 401 (one retry).
 - Refresh tokens in device-only SecureStore; access tokens in memory; user metadata and theme preference in AES-256 encrypted MMKV.
 - Persisted system/light/dark theme with the original starter's palette, Inter fonts and English UI.
@@ -77,3 +77,21 @@ Tailwind uses `@ng-native/tailwind`, not Uniwind. There is no `tailwind.config.j
 Agent instructions and context files are local-only and ignored: `.claude/`, `.codex/`, `.agents/`, `AGENTS.md`, `CLAUDE.md`, `PRODUCT.md`, `DESIGN.md`, `VALIDATION.md` and temporary PR drafts. Angular, native, storage, testing, structure and Git rules are kept locally. No original React-specific skills are carried into the Angular version.
 
 Best-practice sources researched on 2026-09-30: [Angular style guide](https://angular.dev/style-guide), [signals](https://angular.dev/guide/signals), [zoneless](https://angular.dev/guide/zoneless), [route guards](https://angular.dev/guide/routing/route-guards), [security](https://angular.dev/best-practices/security) and [Angular Native limitations](https://ng-native.com/guide/limitations).
+
+## Native showcase (in development)
+
+The protected `showcase` module preserves login and home, and exposes native demonstrations through hook facades. Current categories cover camera/media, native video playback, audio, files/PDF, biometrics/security, local notifications and receive/open events, location, sensors, device/system, connectivity, SQLite, contacts/calendar, TanStack Query and Zustand/MMKV. Native functionality requires a rebuilt development client; a previously installed starter binary does not contain the new modules.
+
+Pages and components may import Angular and native rendering primitives. All third-party/native behavior lives in `hooks/<use-name>/index.ts`, with contract types in `types.ts`. ESLint rejects direct library imports in consumers. Native permissions are requested by actions. Screen-bound hardware activity suspends when the screen loses focus or the app enters the background; resources release on destruction. Notification listeners and Query lifecycle synchronization run at application scope.
+
+Camera capture, enrolled biometrics and several sensors require a physical device. Remote push additionally requires native provisioning and a configured project; this showcase is still being expanded and verified. Existing unit tests do not establish hardware parity.
+
+Sources: [Expo SDK](https://docs.expo.dev/versions/latest/), [TanStack Angular Query](https://tanstack.com/query/latest/docs/framework/angular/overview), [Zustand vanilla](https://zustand.docs.pmnd.rs/apis/create-store), [Angular Native](https://ng-native.com/guide/getting-started).
+
+## Application setup
+
+Provider factories live in `src/core/providers/<name>/index.ts`; `application/index.ts` composes the application DI configuration. The Safe Area context lives in `providers/safe-area/index.ts` with its external `index.html` template. Startup tasks live in `src/core/initializers/<name>/index.ts`: native runtime/view registration, awaited font loading, theme restoration, TanStack online/focus synchronization and notification listeners. `app.config.ts` only consumes the provider composition, and `main.ts` only invokes the native runtime initializer.
+
+The video demo includes a six-second animated Angular logo clip derived from the app artwork, so playback works offline. Native actions suspend when their screen loses focus or the app enters the background; pending activation checks prevent late permission/location results from starting hidden hardware listeners.
+
+To register for remote push, set `EXPO_PUBLIC_EAS_PROJECT_ID` to your EAS project ID and provision APNs/FCM credentials in the native client. Registration is explicit and reports missing configuration. Notification listeners run at application scope, retain the last received/opened events and read the last response on startup. Demo scheduling/cancellation and dismissal affect only notifications tagged as showcase-owned.
