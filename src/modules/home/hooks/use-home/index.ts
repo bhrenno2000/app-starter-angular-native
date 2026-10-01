@@ -49,6 +49,7 @@ export function useHome() {
   }
 
   return {
+    back: () => navigation.reset('/showcase'),
     user: session.user,
     themeMode: theme.mode,
     setTheme: (mode: ThemeOption['mode']) => theme.set(mode),

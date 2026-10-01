@@ -10,6 +10,6 @@ export function parseAppLink(url: string | null): string | null {
 }
 export function appLinkParent(path: string): string | null {
   const target = appLinkTarget(path);
-  if (target === '/showcase') return '/home';
+  if (target === '/showcase') return null;
   return target?.startsWith('/showcase/') ? '/showcase' : null;
 }

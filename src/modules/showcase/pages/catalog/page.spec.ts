@@ -1,3 +1,4 @@
+import { provideAppIcons } from '@/core/providers/icons';
 import { cleanup, render, screen, userEvent } from '@ng-native/testing';
 import { NativeNavigation } from '@ng-native/router';
 import { afterEach, expect, test, vi } from 'vitest';
@@ -6,7 +7,10 @@ afterEach(cleanup);
 test('renders the catalogue without native SDKs and routes an accessible feature action', async () => {
   const push = vi.fn(async () => true);
   await render(ShowcaseCatalogPage, {
-    providers: [{ provide: NativeNavigation, useValue: { push, back: vi.fn() } }],
+    providers: [
+      provideAppIcons(),
+      { provide: NativeNavigation, useValue: { push, back: vi.fn() } },
+    ],
   });
   expect(screen.getByText('Native showcase')).toBeTruthy();
   expect(screen.getByText('Camera & barcodes')).toBeTruthy();
@@ -18,6 +22,7 @@ test('renders the catalogue without native SDKs and routes an accessible feature
 test('shows a navigation failure without leaving the catalogue', async () => {
   await render(ShowcaseCatalogPage, {
     providers: [
+      provideAppIcons(),
       {
         provide: NativeNavigation,
         useValue: {
@@ -36,7 +41,10 @@ test('shows a navigation failure without leaving the catalogue', async () => {
 
 test('filters case-insensitively across category descriptions and clears an empty result', async () => {
   await render(ShowcaseCatalogPage, {
-    providers: [{ provide: NativeNavigation, useValue: { push: vi.fn(), back: vi.fn() } }],
+    providers: [
+      provideAppIcons(),
+      { provide: NativeNavigation, useValue: { push: vi.fn(), back: vi.fn() } },
+    ],
   });
   const user = userEvent.setup();
   const input = screen.getByLabelText('Search capabilities');

@@ -51,5 +51,5 @@ export function useLogin() {
     });
   }
 
-  return { error: error.asReadonly(), loginForm, login };
+  return { back: () => navigation.reset('/showcase'), error: error.asReadonly(), loginForm, login };
 }

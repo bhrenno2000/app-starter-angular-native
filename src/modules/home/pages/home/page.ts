@@ -1,3 +1,4 @@
+import { PageHeader } from '@/shared/components/page-header';
 import { useHome } from '../../hooks/use-home';
 import { Component } from '@angular/core';
 import { SafeAreaView, ScrollView, Text, View } from '@ng-native/components';
@@ -6,7 +7,7 @@ import { Card } from '@/shared/components/card/index';
 import { Typography } from '@/shared/components/typography/index';
 @Component({
   selector: 'app-home-page',
-  imports: [SafeAreaView, ScrollView, Text, View, Button, Card, Typography],
+  imports: [PageHeader, SafeAreaView, ScrollView, Text, View, Button, Card, Typography],
   templateUrl: './page.html',
   styles: `
     :host {

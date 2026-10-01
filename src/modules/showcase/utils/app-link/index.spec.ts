@@ -5,7 +5,7 @@ test('accepts configured showcase links and builds their native back stack', () 
   expect(parseAppLink('appstarterangular:///showcase/state')).toBe('/showcase/state');
   expect(parseAppLink('APPSTARTERANGULAR://home')).toBe('/home');
   expect(appLinkParent('/showcase/query')).toBe('/showcase');
-  expect(appLinkParent('/showcase')).toBe('/home');
+  expect(appLinkParent('/showcase')).toBeNull();
   expect(appLinkParent('/home')).toBeNull();
 });
 test.each([

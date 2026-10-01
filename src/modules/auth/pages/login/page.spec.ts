@@ -1,3 +1,4 @@
+import { provideAppIcons } from '@/core/providers/icons';
 import { cleanup, render, screen, userEvent, waitFor } from '@ng-native/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { NativeNavigation } from '@ng-native/router';
@@ -14,6 +15,7 @@ async function setup(returnTo: string | null = null) {
   const push = vi.fn().mockResolvedValue(true);
   await render(AuthLoginPage, {
     providers: [
+      provideAppIcons(),
       { provide: APP_STORAGE, useValue: new MemoryStorage() },
       { provide: AUTH_BACKEND, useValue: backend },
       { provide: NativeNavigation, useValue: { reset, push } },

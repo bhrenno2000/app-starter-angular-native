@@ -1,6 +1,6 @@
 import type { Routes } from '@angular/router';
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'showcase' },
   {
     path: '',
     loadChildren: async () => {
@@ -12,5 +12,5 @@ export const routes: Routes = [
       return modules.flatMap((module) => module.routes);
     },
   },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'showcase' },
 ];

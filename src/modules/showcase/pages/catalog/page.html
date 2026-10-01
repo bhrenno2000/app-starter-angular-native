@@ -1,28 +1,29 @@
 <safe-area-view class="flex-1 bg-background">
-  <view class="gap-3 px-4 pt-4 pb-2">
-    <app-button label="Back to home" variant="outline" (pressed)="showcase.back()" />
-    <app-input
-      testId="showcase-search"
-      label="Search capabilities"
-      placeholder="Camera, maps, files..."
-      [value]="showcase.search()"
-      (valueChange)="showcase.search.set($event)"
-    />
-    <text class="text-sm text-muted">
-      Showing {{ showcase.filteredCategories().length }} of
-      {{ showcase.categories.length }} capabilities
-    </text>
-    @if (showcase.search()) {
-      <app-button label="Clear search" variant="outline" (pressed)="showcase.clearSearch()" />
-    }
-    @if (showcase.error()) {
-      <text accessibilityRole="alert" class="mt-2 text-sm text-danger">{{ showcase.error() }}</text>
-    }
-  </view>
+  <app-page-header title="Native showcase" [canGoBack]="false" />
   <scroll-view class="flex-1">
+    <view class="gap-3 px-4 pt-4 pb-2">
+      <app-input
+        testId="showcase-search"
+        label="Search capabilities"
+        placeholder="Camera, maps, files..."
+        [value]="showcase.search()"
+        (valueChange)="showcase.search.set($event)"
+      />
+      <text class="text-sm text-muted">
+        Showing {{ showcase.filteredCategories().length }} of
+        {{ showcase.categories.length }} capabilities
+      </text>
+      @if (showcase.search()) {
+        <app-button label="Clear search" variant="outline" (pressed)="showcase.clearSearch()" />
+      }
+      @if (showcase.error()) {
+        <text accessibilityRole="alert" class="mt-2 text-sm text-danger">
+          {{ showcase.error() }}
+        </text>
+      }
+    </view>
     <view class="gap-6 px-4 pt-4 pb-6">
       <view class="gap-2">
-        <app-typography variant="title">Native showcase</app-typography>
         <app-typography variant="muted">
           Explore real device capabilities powered by Angular.
         </app-typography>

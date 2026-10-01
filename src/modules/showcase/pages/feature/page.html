@@ -1,73 +1,76 @@
 <safe-area-view class="flex-1 bg-background">
-  <view class="px-4 pt-4 pb-2">
-    <app-button label="Back to showcase" variant="outline" (pressed)="showcase.back()" />
-  </view>
-  @if (showcase.demo.layout; as layout) {
-    <view class="gap-2 px-4 py-2">
-      <text class="text-sm text-muted">Native-driver motion preview</text>
-      <view class="h-14 justify-center rounded-xl bg-surface px-3">
-        <view
-          class="h-8 w-16 rounded-lg bg-accent"
-          [animatedStyle]="layout.animatedStyle"
-          accessibilityLabel="Native animation marker"
-        />
-      </view>
-      @if (layout.nativeDriverUsed() !== null) {
-        <text class="text-sm text-muted">
-          {{
-            layout.nativeDriverUsed() ? 'Native driver confirmed' : 'JavaScript animation fallback'
-          }}
-        </text>
-      }
-      <text class="text-sm text-muted">LayoutAnimation request preview</text>
-      <view
-        class="justify-center rounded-xl bg-accent px-4"
-        [style.height.px]="layout.expanded() ? 100 : 52"
-        accessibilityRole="summary"
-        [accessibilityState]="{ expanded: layout.expanded() }"
-      >
-        <text class="text-base font-semibold text-accent-foreground">
-          {{ layout.expanded() ? 'Expanded panel' : 'Collapsed panel' }}
-        </text>
-      </view>
-      @for (row of layout.rows(); track row.id) {
-        <view class="rounded-lg bg-surface px-3 py-1">
-          <text class="text-sm text-foreground">{{ row.title }}</text>
-        </view>
-      }
-    </view>
-  }
-  @if (showcase.demo.interaction; as interaction) {
-    <view class="gap-2 px-4 py-2">
-      <text class="text-sm text-muted">Drag the tile or pinch with two fingers</text>
-      <view class="h-44 items-center justify-center rounded-xl bg-surface" testID="gesture-stage">
-        <view
-          class="h-16 w-20 items-center justify-center rounded-xl bg-accent"
-          testID="gesture-tile"
-          accessibilityLabel="Drag and pinch preview"
-          [gesture]="interaction.transformGesture"
-          [workletStyle]="interaction.style"
-        >
-          <text class="text-sm font-semibold text-accent-foreground">Angular</text>
-        </view>
-      </view>
-      <view
-        class="h-12 items-center justify-center rounded-xl bg-surface"
-        testID="gesture-press"
-        accessibilityLabel="Tap or hold preview"
-        [gesture]="interaction.pressGesture"
-      >
-        <text class="text-sm text-foreground">Tap here or hold for 650 ms</text>
-      </view>
-    </view>
-  }
+  <app-page-header [title]="showcase.category.title" (back)="showcase.back()" />
   @if (showcase.demo.list; as list) {
     <app-sample-list [list]="list" />
   }
   <scroll-view class="flex-1">
     <view class="gap-6 px-4 pt-4 pb-6">
+      @if (showcase.demo.layout; as layout) {
+        <view class="gap-2 px-4 py-2">
+          <text class="text-sm text-muted">Native-driver motion preview</text>
+          <view class="h-14 justify-center rounded-xl bg-surface px-3">
+            <view
+              class="h-8 w-16 rounded-lg bg-accent"
+              [animatedStyle]="layout.animatedStyle"
+              accessibilityLabel="Native animation marker"
+            />
+          </view>
+          @if (layout.nativeDriverUsed() !== null) {
+            <text class="text-sm text-muted">
+              {{
+                layout.nativeDriverUsed()
+                  ? 'Native driver confirmed'
+                  : 'JavaScript animation fallback'
+              }}
+            </text>
+          }
+          <text class="text-sm text-muted">LayoutAnimation request preview</text>
+          <view
+            class="justify-center rounded-xl bg-accent px-4"
+            [style.height.px]="layout.expanded() ? 100 : 52"
+            accessibilityRole="summary"
+            [accessibilityState]="{ expanded: layout.expanded() }"
+          >
+            <text class="text-base font-semibold text-accent-foreground">
+              {{ layout.expanded() ? 'Expanded panel' : 'Collapsed panel' }}
+            </text>
+          </view>
+          @for (row of layout.rows(); track row.id) {
+            <view class="rounded-lg bg-surface px-3 py-1">
+              <text class="text-sm text-foreground">{{ row.title }}</text>
+            </view>
+          }
+        </view>
+      }
+      @if (showcase.demo.interaction; as interaction) {
+        <view class="gap-2 px-4 py-2">
+          <text class="text-sm text-muted">Drag the tile or pinch with two fingers</text>
+          <view
+            class="h-44 items-center justify-center rounded-xl bg-surface"
+            testID="gesture-stage"
+          >
+            <view
+              class="h-16 w-20 items-center justify-center rounded-xl bg-accent"
+              testID="gesture-tile"
+              accessibilityLabel="Drag and pinch preview"
+              [gesture]="interaction.transformGesture"
+              [workletStyle]="interaction.style"
+            >
+              <text class="text-sm font-semibold text-accent-foreground">Angular</text>
+            </view>
+          </view>
+          <view
+            class="h-12 items-center justify-center rounded-xl bg-surface"
+            testID="gesture-press"
+            accessibilityLabel="Tap or hold preview"
+            [gesture]="interaction.pressGesture"
+          >
+            <text class="text-sm text-foreground">Tap here or hold for 650 ms</text>
+          </view>
+        </view>
+      }
+
       <view class="gap-2">
-        <app-typography variant="title">{{ showcase.category.title }}</app-typography>
         <app-typography variant="muted">{{ showcase.category.description }}</app-typography>
       </view>
       @if (showcase.demo.interaction; as interaction) {
