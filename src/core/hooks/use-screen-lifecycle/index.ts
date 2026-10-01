@@ -5,6 +5,10 @@ export function useScreenLifecycle(stop: () => void) {
   const app = inject(AppState);
   let disposed = false;
   let generation = 0;
+  let navigationGeneration = 0;
+  effect(() => {
+    if (!screen()) navigationGeneration++;
+  });
   const active = () => !disposed && screen() && app.active();
   const suspend = () => {
     generation++;
@@ -19,6 +23,10 @@ export function useScreenLifecycle(stop: () => void) {
   });
   return {
     isActive: active,
+    navigationCheckpoint() {
+      const current = navigationGeneration;
+      return () => !disposed && screen() && navigationGeneration === current;
+    },
     checkpoint() {
       const current = generation;
       return () => active() && generation === current;

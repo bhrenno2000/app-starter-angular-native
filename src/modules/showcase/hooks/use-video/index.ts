@@ -27,6 +27,7 @@ export function useVideo() {
     progress.remove();
     player.release();
   });
+  const pause = () => player.pause();
   const waitUntilReady = () =>
     new Promise<void>((resolve, reject) => {
       if (player.status === 'readyToPlay') {
@@ -76,6 +77,8 @@ export function useVideo() {
     return 'Native video playback started.';
   };
   return {
+    load,
+    pause,
     videoId: videoId.asReadonly(),
     reading: reading.asReadonly(),
     ...useNativeTask([

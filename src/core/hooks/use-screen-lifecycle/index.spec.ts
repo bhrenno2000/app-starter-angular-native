@@ -66,3 +66,29 @@ test('cleanup state is not a dependency of the lifecycle effect', async () => {
   componentRef.destroy();
   expect(stop).toHaveBeenCalledTimes(2);
 });
+
+test('native activity checkpoint permits intentional app backgrounding but not navigation', async () => {
+  const front = signal(true);
+  const foreground = signal(true);
+  const { componentRef, detectChanges } = await render(Host, {
+    providers: [
+      { provide: STOP, useValue: vi.fn() },
+      { provide: SCREEN_IN_FRONT, useValue: front },
+      { provide: AppState, useValue: { active: foreground } },
+    ],
+  });
+  const current = componentRef.instance.lifecycle.navigationCheckpoint();
+  foreground.set(false);
+  await detectChanges();
+  foreground.set(true);
+  await detectChanges();
+  expect(current()).toBe(true);
+  front.set(false);
+  await detectChanges();
+  front.set(true);
+  await detectChanges();
+  expect(current()).toBe(false);
+  const fresh = componentRef.instance.lifecycle.navigationCheckpoint();
+  componentRef.destroy();
+  expect(fresh()).toBe(false);
+});
