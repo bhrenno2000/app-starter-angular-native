@@ -1,3 +1,4 @@
+import { useCalendar } from '../use-calendar';
 import { useGallery } from '../use-gallery';
 import { useScreenControls } from '../use-screen-controls';
 import { useMaps } from '../use-maps';
@@ -24,6 +25,7 @@ import { findShowcaseCategory } from '../use-showcase';
 import type { NativeFeature } from './types';
 const factories: Readonly<Record<string, () => NativeFeature>> = {
   gallery: useGallery,
+  calendar: useCalendar,
   'screen-controls': useScreenControls,
   maps: useMaps,
   'web-view': useWebView,

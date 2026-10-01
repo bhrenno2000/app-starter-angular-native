@@ -48,9 +48,14 @@ const categories: readonly ShowcaseCategory[] = [
     description: 'Parameterized SQL and persistent native database records.',
   },
   {
+    id: 'calendar',
+    title: 'Calendar & reminders',
+    description: 'Event queries, owned demo calendars/events, native editor and iOS reminders.',
+  },
+  {
     id: 'people',
-    title: 'Contacts & calendar',
-    description: 'Permission-aware contacts and native event editing.',
+    title: 'Contacts',
+    description: 'Permission-aware contact queries and reversible demo-contact changes.',
   },
   {
     id: 'media',
