@@ -9,9 +9,12 @@ const config: ExpoConfig = {
   scheme: 'appstarterangular',
   userInterfaceStyle: 'automatic',
   icon: `${assets}/icon.png`,
-  extra: process.env.EXPO_PUBLIC_EAS_PROJECT_ID
-    ? { eas: { projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID } }
-    : {},
+  extra: {
+    googleMapsConfigured: Boolean(process.env.GOOGLE_MAPS_API_KEY),
+    ...(process.env.EXPO_PUBLIC_EAS_PROJECT_ID
+      ? { eas: { projectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID } }
+      : {}),
+  },
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.bhrenno.appstarterangular',
@@ -19,6 +22,9 @@ const config: ExpoConfig = {
   },
   android: {
     package: 'com.bhrenno.appstarterangular',
+    config: process.env.GOOGLE_MAPS_API_KEY
+      ? { googleMaps: { apiKey: process.env.GOOGLE_MAPS_API_KEY } }
+      : undefined,
     predictiveBackGestureEnabled: false,
     softwareKeyboardLayoutMode: 'resize',
     adaptiveIcon: {
@@ -30,6 +36,16 @@ const config: ExpoConfig = {
   },
   plugins: [
     '@ng-native/metro',
+    'expo-asset',
+    ['expo-maps', { requestLocationPermission: false }],
+    [
+      'expo-camera',
+      {
+        cameraPermission:
+          'Scan codes with the live camera when you start the camera demonstration.',
+        recordAudioAndroid: false,
+      },
+    ],
     [
       'expo-image-picker',
       {

@@ -64,6 +64,9 @@ export default tseslint.config(
     files: [
       'src/core/initializers/fonts/index.ts',
       'src/modules/showcase/hooks/use-video/index.ts',
+      'src/modules/showcase/hooks/use-web-view/index.ts',
+      'src/modules/showcase/hooks/use-camera/index.ts',
+      'src/modules/showcase/hooks/use-gallery/index.ts',
       '**/*.js',
       '**/*.cjs',
     ],

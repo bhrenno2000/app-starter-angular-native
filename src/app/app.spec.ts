@@ -46,3 +46,13 @@ test('restores session before deciding whether to show login', async () => {
   expect(await screen.findByText('ada@example.com')).toBeTruthy();
   expect(router.url).toBe('/home');
 });
+
+test('redirects an unknown showcase category before loading native SDKs', async () => {
+  const storage = new MemoryStorage();
+  await storage.setSecret(SECURE_KEYS.refreshToken, 'mock:demo@example.com');
+  const { componentRef } = await setup(storage);
+  const router = componentRef.injector.get(Router);
+  await router.navigateByUrl('/showcase/not-a-demo');
+  expect(await screen.findByText('Native showcase')).toBeTruthy();
+  expect(router.url).toBe('/showcase');
+});

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Angular Native WebView</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background: #fafafa;
+        color: #171717;
+        padding: 24px;
+        margin: 0;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      p {
+        line-height: 1.5;
+        color: #525252;
+      }
+      button {
+        border: 0;
+        border-radius: 12px;
+        background: #3b82f6;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        width: 100%;
+      }
+      output {
+        display: block;
+        margin-top: 16px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Embedded native browser</h1>
+    <p>
+      This local document runs inside WKWebView on iOS and Android WebView. Its messages are
+      validated by an Angular hook.
+    </p>
+    <button id="send">Send message to Angular</button><output id="count">Messages sent: 0</output>
+    <script>
+      let count = 0;
+      document.getElementById('send').addEventListener('click', () => {
+        count++;
+        document.getElementById('count').textContent = 'Messages sent: ' + count;
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'counter', value: count }));
+      });
+    </script>
+  </body>
+</html>

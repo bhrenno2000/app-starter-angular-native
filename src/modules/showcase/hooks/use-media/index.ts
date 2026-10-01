@@ -60,13 +60,19 @@ export function useMedia() {
           if (item.type !== 'image') throw new Error('Choose an image to resize.');
           const context = ImageManipulator.manipulate(item.uri);
           context.resize({ width: 720 });
-          const rendered = await context.renderAsync();
-          const image = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
-          selected.set({ ...item, ...image });
-          preview.set(image.uri);
-          context.release();
-          rendered.release();
-          return image;
+          try {
+            const rendered = await context.renderAsync();
+            try {
+              const image = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+              selected.set({ ...item, ...image });
+              preview.set(image.uri);
+              return image;
+            } finally {
+              rendered.release();
+            }
+          } finally {
+            context.release();
+          }
         },
       },
       {

@@ -1,7 +1,9 @@
 <safe-area-view class="flex-1 bg-background">
+  <view class="px-4 pt-4 pb-2">
+    <app-button label="Back to showcase" variant="outline" (pressed)="showcase.back()" />
+  </view>
   <scroll-view class="flex-1">
     <view class="gap-6 px-4 pt-4 pb-6">
-      <app-button label="Back to showcase" variant="outline" (pressed)="showcase.back()" />
       <view class="gap-2">
         <app-typography variant="title">{{ showcase.category.title }}</app-typography>
         <app-typography variant="muted">{{ showcase.category.description }}</app-typography>
@@ -28,6 +30,39 @@
           class="h-64 w-full rounded-xl"
           accessibilityLabel="Selected media preview"
         />
+      }
+      @if (showcase.demo.map; as map) {
+        @if (map.visible()) {
+          <app-native-map
+            [camera]="map.camera()"
+            [markers]="map.markers()"
+            (mapClick)="map.event('mapClick', $event)"
+            (markerClick)="map.event('markerClick', $event)"
+            (cameraMove)="map.event('cameraMove', $event)"
+          />
+        }
+      }
+      @if (showcase.demo.web; as web) {
+        @if (web.document(); as document) {
+          <app-native-web-view
+            [document]="document"
+            (message)="web.message($event)"
+            (shouldStartLoadWithRequest)="web.navigation($event)"
+            (loadingFinish)="web.loaded()"
+            (loadingError)="web.failed($event)"
+          />
+        }
+      }
+      @if (showcase.demo.camera; as camera) {
+        @if (camera.visible()) {
+          <app-native-camera
+            [facing]="camera.facing()"
+            [torch]="camera.torch()"
+            (barcodeScanned)="camera.scanned($event)"
+            (cameraReady)="camera.ready()"
+            (mountError)="camera.failed($event)"
+          />
+        }
       }
       @if (showcase.demo.videoId; as videoId) {
         @if (videoId() !== null) {

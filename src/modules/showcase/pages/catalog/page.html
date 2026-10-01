@@ -1,7 +1,12 @@
 <safe-area-view class="flex-1 bg-background">
+  <view class="px-4 pt-4 pb-2">
+    <app-button label="Back to home" variant="outline" (pressed)="showcase.back()" />
+    @if (showcase.error()) {
+      <text accessibilityRole="alert" class="mt-2 text-sm text-danger">{{ showcase.error() }}</text>
+    }
+  </view>
   <scroll-view class="flex-1">
     <view class="gap-6 px-4 pt-4 pb-6">
-      <app-button label="Back to home" variant="outline" (pressed)="showcase.back()" />
       <view class="gap-2">
         <app-typography variant="title">Native showcase</app-typography>
         <app-typography variant="muted">
