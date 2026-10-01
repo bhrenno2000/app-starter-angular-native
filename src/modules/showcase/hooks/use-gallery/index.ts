@@ -1,6 +1,6 @@
 import { inject, signal } from '@angular/core';
 import { Album, Asset, AssetField, Query, requestPermissionsAsync } from 'expo-media-library';
-import { Asset as BundledAsset } from 'expo-asset';
+import { useBundledAsset } from '@/core/hooks/use-bundled-asset';
 import { Platform } from 'react-native';
 import { z } from 'zod';
 import { APP_STORAGE } from '@/core/storage/app-storage';
@@ -42,11 +42,9 @@ export function useGallery() {
     };
   };
   const sample = async () => {
-    const asset = BundledAsset.fromModule(require('../../../../../assets/images/native/icon.png'));
-    await asset.downloadAsync();
-    if (!asset.localUri) throw new Error('The demo image could not be loaded.');
-    preview.set(asset.localUri);
-    return asset.localUri;
+    const uri = await useBundledAsset(require('../../../../../assets/images/native/icon.png'));
+    preview.set(uri);
+    return uri;
   };
   return {
     preview: preview.asReadonly(),

@@ -1,7 +1,7 @@
 import type { CameraFacing } from '@/shared/components/native-camera/types';
 import { signal } from '@angular/core';
 import { Camera } from 'expo-camera';
-import { Asset } from 'expo-asset';
+import { useBundledAsset } from '@/core/hooks/use-bundled-asset';
 import * as Picker from 'expo-image-picker';
 import * as Device from 'expo-device';
 import { z } from 'zod';
@@ -104,12 +104,10 @@ export function useCamera() {
         id: 'fixture',
         label: 'Scan bundled QR image',
         run: async () => {
-          const asset = Asset.fromModule(
+          const uri = await useBundledAsset(
             require('../../../../../assets/images/native/qr-code.png'),
           );
-          await asset.downloadAsync();
-          if (!asset.localUri) throw new Error('The QR image could not be loaded.');
-          return scan(asset.localUri);
+          return scan(uri);
         },
       },
       {

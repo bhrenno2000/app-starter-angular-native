@@ -1,7 +1,7 @@
 import { TurboModuleRegistry } from 'react-native';
 import type { NativeWebViewModule } from './types';
 import { signal } from '@angular/core';
-import { Asset } from 'expo-asset';
+import { useBundledAsset } from '@/core/hooks/use-bundled-asset';
 import { File } from 'expo-file-system';
 import { z } from 'zod';
 import { useNativeTask } from '@/core/hooks/use-native-task';
@@ -14,10 +14,8 @@ export function useWebView() {
   const load = async () => {
     lifecycle.assertActive();
     const active = lifecycle.checkpoint();
-    const asset = Asset.fromModule(require('../../../../../assets/html/webview-demo.htm'));
-    await asset.downloadAsync();
-    if (!asset.localUri) throw new Error('The embedded document could not be loaded.');
-    const html = await new File(asset.localUri).text();
+    const uri = await useBundledAsset(require('../../../../../assets/html/webview-demo.htm'));
+    const html = await new File(uri).text();
     if (!active()) return 'Document loading cancelled because this screen is no longer active.';
     document.set({
       html: html + `<!-- instance-${Date.now()} -->`,
