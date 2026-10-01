@@ -23,6 +23,9 @@
       @if (home.error()) {
         <text accessibilityRole="alert" class="text-sm text-danger">{{ home.error() }}</text>
       }
+      @if (home.opening()) {
+        <text class="text-sm text-muted">Opening native showcase...</text>
+      }
       <app-button label="Open native showcase" (pressed)="home.openShowcase()" />
       <app-button
         label="Sign out"

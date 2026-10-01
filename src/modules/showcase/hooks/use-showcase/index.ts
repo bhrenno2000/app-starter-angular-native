@@ -1,4 +1,4 @@
-import { inject, signal } from '@angular/core';
+import { computed, inject, signal } from '@angular/core';
 import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
@@ -111,8 +111,19 @@ const categories: readonly ShowcaseCategory[] = [
 export function useShowcase() {
   const navigation = inject(NativeNavigation);
   const error = signal<string | null>(null);
+  const search = signal('');
+  const filteredCategories = computed(() => {
+    const words = search().trim().toLowerCase().split(/\s+/).filter(Boolean);
+    return categories.filter((category) => {
+      const text = `${category.id} ${category.title} ${category.description}`.toLowerCase();
+      return words.every((word) => text.includes(word));
+    });
+  });
   return {
     categories,
+    search,
+    filteredCategories,
+    clearSearch: () => search.set(''),
     error: error.asReadonly(),
     open: async (id: string) => {
       error.set(null);

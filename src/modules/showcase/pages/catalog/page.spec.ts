@@ -33,3 +33,19 @@ test('shows a navigation failure without leaving the catalogue', async () => {
   expect(await screen.findByText('This demonstration could not start.')).toBeTruthy();
   expect(screen.getByText('Native showcase')).toBeTruthy();
 });
+
+test('filters case-insensitively across category descriptions and clears an empty result', async () => {
+  await render(ShowcaseCatalogPage, {
+    providers: [{ provide: NativeNavigation, useValue: { push: vi.fn(), back: vi.fn() } }],
+  });
+  const user = userEvent.setup();
+  const input = screen.getByLabelText('Search capabilities');
+  await user.type(input, 'QR');
+  expect(screen.getByRole('button', { name: 'Explore Camera & barcodes' })).toBeTruthy();
+  expect(screen.queryByRole('button', { name: 'Explore WebView' })).toBeNull();
+  await user.press(screen.getByRole('button', { name: 'Clear search' }));
+  await user.type(input, 'unknown-feature');
+  expect(screen.getByText('No capabilities match your search.')).toBeTruthy();
+  await user.press(screen.getByRole('button', { name: 'Clear search' }));
+  expect(screen.getByRole('button', { name: 'Explore WebView' })).toBeTruthy();
+});

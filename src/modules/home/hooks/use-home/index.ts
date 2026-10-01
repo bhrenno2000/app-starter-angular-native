@@ -8,6 +8,8 @@ export function useHome() {
   const theme = inject(ThemePreference);
   const navigation = inject(NativeNavigation);
   const leaving = signal(false);
+  const opening = signal(false);
+  let attempt = 0;
   const error = signal<string | null>(null);
   const options: readonly ThemeOption[] = [
     { mode: 'system', label: 'System' },
@@ -15,11 +17,17 @@ export function useHome() {
     { mode: 'dark', label: 'Dark' },
   ];
   async function openShowcase(): Promise<void> {
+    const current = ++attempt;
+    opening.set(true);
     error.set(null);
     try {
-      if (!(await navigation.push('/showcase'))) error.set('Unable to open the native showcase.');
+      const opened = await navigation.push('/showcase');
+      if (current === attempt && !opened) error.set('Unable to open the native showcase.');
     } catch (cause) {
-      error.set(cause instanceof Error ? cause.message : 'Unable to open the native showcase.');
+      if (current === attempt)
+        error.set(cause instanceof Error ? cause.message : 'Unable to open the native showcase.');
+    } finally {
+      if (current === attempt) opening.set(false);
     }
   }
   async function logout(): Promise<void> {
@@ -45,6 +53,7 @@ export function useHome() {
     themeMode: theme.mode,
     setTheme: (mode: ThemeOption['mode']) => theme.set(mode),
     leaving: leaving.asReadonly(),
+    opening: opening.asReadonly(),
     error: error.asReadonly(),
     options,
     logout,
