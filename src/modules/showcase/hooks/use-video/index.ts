@@ -95,7 +95,8 @@ export function useVideo() {
         id: 'pick',
         label: 'Pick and play a video',
         run: async () => {
-          const active = lifecycle.checkpoint();
+          lifecycle.assertActive();
+          const active = lifecycle.navigationCheckpoint();
           const result = await Documents.getDocumentAsync({
             type: 'video/*',
             copyToCacheDirectory: true,
