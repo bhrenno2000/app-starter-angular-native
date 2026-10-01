@@ -6,11 +6,15 @@ import { useScreenLifecycle } from '@/core/hooks/use-screen-lifecycle';
 import type { NativeVideoHandle, VideoSource } from './types';
 export function useVideo() {
   const player = createVideoPlayer(null);
+  let released = false;
+  const pause = () => {
+    if (!released) player.pause();
+  };
   const videoId = signal<number | null>(null);
   const reading = signal<string | null>(null);
   let cancelLoading: (() => void) | null = null;
   const lifecycle = useScreenLifecycle(() => {
-    player.pause();
+    pause();
     cancelLoading?.();
   });
   player.timeUpdateEventInterval = 0.5;
@@ -23,11 +27,11 @@ export function useVideo() {
     );
   });
   inject(DestroyRef).onDestroy(() => {
+    released = true;
     status.remove();
     progress.remove();
     player.release();
   });
-  const pause = () => player.pause();
   const waitUntilReady = () =>
     new Promise<void>((resolve, reject) => {
       if (player.status === 'readyToPlay') {
@@ -115,7 +119,7 @@ export function useVideo() {
         id: 'pause',
         label: 'Pause video',
         run: () => {
-          player.pause();
+          pause();
           return 'Playback paused.';
         },
       },

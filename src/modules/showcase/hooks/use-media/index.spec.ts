@@ -152,3 +152,20 @@ test('navigation during save permission prevents a late library write', async ()
   await action;
   expect(native.create).not.toHaveBeenCalled();
 });
+
+test('a replacement selection hides the previous video until the new source is loaded', async () => {
+  const { demo } = await setup();
+  await demo.perform('video');
+  expect(demo.videoId()).toBeNull();
+  await demo.perform('play');
+  expect(demo.videoId()).toBe(7);
+  native.camera.mockResolvedValue({
+    canceled: false,
+    assets: [{ type: 'video', uri: 'file:///replacement.mp4', width: 720, height: 1280 }],
+  });
+  await demo.perform('video');
+  expect(demo.videoId()).toBeNull();
+  await demo.perform('play');
+  expect(native.load).toHaveBeenLastCalledWith('file:///replacement.mp4');
+  expect(demo.videoId()).toBe(7);
+});

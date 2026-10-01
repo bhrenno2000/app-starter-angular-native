@@ -8,13 +8,15 @@ import * as Sharing from 'expo-sharing';
 import { useNativeTask } from '@/core/hooks/use-native-task';
 export function useMedia() {
   const video = useVideo();
-  const lifecycle = useScreenLifecycle(video.pause);
+  const lifecycle = useScreenLifecycle(() => {});
   const preview = signal<string | null>(null);
   const selected = signal<Picker.ImagePickerAsset | null>(null);
+  const playingSelection = signal<string | null>(null);
   const accept = (result: Picker.ImagePickerResult) => {
     if (result.canceled) return 'Selection cancelled.';
     video.pause();
     const asset = result.assets[0];
+    playingSelection.set(null);
     selected.set(asset);
     preview.set(asset.type === 'image' ? asset.uri : null);
     return {
@@ -47,7 +49,11 @@ export function useMedia() {
   };
   return {
     preview: preview.asReadonly(),
-    videoId: computed(() => (selected()?.type === 'video' ? video.videoId() : null)),
+    videoId: computed(() =>
+      selected()?.type === 'video' && playingSelection() === selected()?.uri
+        ? video.videoId()
+        : null,
+    ),
     reading: video.reading,
     ...useNativeTask([
       { id: 'photo', label: 'Capture photo', run: () => capture(false) },
@@ -74,7 +80,10 @@ export function useMedia() {
         run: async () => {
           const item = requireSelection();
           if (item.type !== 'video') throw new Error('Capture or choose a video first.');
-          return video.load(item.uri);
+          const active = lifecycle.checkpoint();
+          const result = await video.load(item.uri);
+          if (active()) playingSelection.set(item.uri);
+          return result;
         },
       },
       {
