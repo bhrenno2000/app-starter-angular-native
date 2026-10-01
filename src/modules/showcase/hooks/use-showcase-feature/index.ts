@@ -1,3 +1,4 @@
+import { useNativeList } from '../use-native-list';
 import { useInteractions } from '../use-interactions';
 import { useBackgroundLocation } from '@/core/hooks/use-background-location';
 import { useBackgroundTask } from '@/core/hooks/use-background-task';
@@ -31,6 +32,7 @@ import { NativeNavigation } from '@ng-native/router';
 import { findShowcaseCategory } from '../use-showcase';
 import type { NativeFeature } from './types';
 const factories: Readonly<Record<string, () => NativeFeature>> = {
+  lists: useNativeList,
   interactions: useInteractions,
   'layout-motion': useLayoutMotion,
   bluetooth: useBle,

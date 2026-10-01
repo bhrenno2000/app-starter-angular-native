@@ -3,6 +3,12 @@ import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
   {
+    id: 'lists',
+    title: 'Native lists',
+    description:
+      'Windowed native scrolling, local sample pagination, stable item selection and favorites.',
+  },
+  {
     id: 'interactions',
     title: 'Gestures & worklets',
     description: 'Native pan, pinch, tap and long press with UI-thread Reanimated transforms.',

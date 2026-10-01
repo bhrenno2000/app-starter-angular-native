@@ -1,3 +1,4 @@
+import { SampleList } from '../../components/sample-list';
 import { NativeGesture } from '@ng-native/components/gestures';
 import { WorkletStyle } from '@ng-native/components/reanimated';
 import { AnimatedStyle } from '@ng-native/components/animations';
@@ -14,6 +15,7 @@ import { useShowcaseFeature } from '../../hooks/use-showcase-feature';
 @Component({
   selector: 'app-showcase-feature-page',
   imports: [
+    SampleList,
     NativeGesture,
     WorkletStyle,
     AnimatedStyle,

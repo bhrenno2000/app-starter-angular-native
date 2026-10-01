@@ -165,3 +165,9 @@ Pan/pinch update bounded shared values on the UI runtime; completed gestures rep
 The published Angular Native 0.2 test runner resolves gesture/worklet stand-ins to missing `src` files. The project test configuration aliases those entries to the package's shipped `dist` stand-ins. Node regressions exercise bounds, successful press handling, stale completions and ownership destruction; they do not establish native recognition or smooth frames. Native runtime validation remains pending until a rebuilt client is installed.
 
 References: [Angular Native gestures](https://ng-native.com/packages/components/gestures), [Angular Native animation](https://ng-native.com/packages/components/animation), [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/gestures/pan-gesture/) and [Worklets threading](https://docs.swmansion.com/react-native-worklets/docs/0.10-0.12/threading/scheduleOnRN/).
+
+## Native lists
+
+The Native lists category renders a windowed `VirtualList` with generated local sample data, 20-item batches capped at 200, explicit reload, item selection and favorites. Its feature component consumes the hook facade and native rendering primitives. Stable item keys identify data while slot tracking recycles views; selection/favorite state stays in the hook rather than in a recycled row. Filtering away the selected item clears that selection, and reload preserves favorites within the current screen lifetime.
+
+A component regression scrolls a 200-item fixture, verifies fewer rendered button nodes, checks the recycled item/favorite label and selects the new item without carrying the old selection. This exercises fake Fabric windowing and bindings; native scrolling/layout remains pending. Tailwind scans feature components and provider wrappers as well as pages. Source: [Angular Native lists](https://ng-native.com/packages/components/lists).

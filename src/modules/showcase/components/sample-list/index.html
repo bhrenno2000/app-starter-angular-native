@@ -1,0 +1,43 @@
+<view class="gap-2 px-4 py-2">
+  <text class="text-sm text-muted">{{ list().summary() }}</text>
+  <text class="text-sm text-muted">
+    Scroll within the list and select a sample. Favorites stay in this demonstration until the
+    screen is destroyed.
+  </text>
+  <virtual-list
+    #window
+    class="h-64 bg-surface rounded-xl"
+    testID="sample-list"
+    [items]="list().items()"
+    [itemHeight]="64"
+    [keyExtractor]="itemKey"
+    (endReached)="list().canLoadMore() && !list().favoritesOnly() && list().loadMore()"
+  >
+    @if (list().items().length === 0) {
+      <text class="p-4 text-sm text-muted">No favorite sample items yet.</text>
+    }
+    @for (row of window.window(); track row.slot) {
+      <view [virtualListRow]="row">
+        <pressable
+          class="flex-1 justify-center px-4"
+          accessibilityRole="button"
+          [accessibilityLabel]="'Select ' + row.item.title"
+          [accessibilityState]="{ selected: list().selectedId() === row.item.id }"
+          [class.bg-accent]="list().selectedId() === row.item.id"
+          (press)="list().select(row.item.id)"
+        >
+          <text
+            class="text-base text-foreground"
+            [class.text-accent-foreground]="list().selectedId() === row.item.id"
+          >
+            {{ row.item.title }}{{ row.item.favorite ? ' · Favorite' : '' }}
+          </text>
+        </pressable>
+      </view>
+    }
+  </virtual-list>
+  <text class="text-sm text-muted">
+    Visible/recycled slots: {{ window.window().length }} · Selected item:
+    {{ list().selectedId() ?? 'none' }}
+  </text>
+</view>

@@ -1,3 +1,4 @@
+import type { useNativeList } from '../use-native-list';
 import type { useInteractions } from '../use-interactions';
 import type { useNfc } from '../use-nfc';
 import type { useBle } from '../use-ble';
@@ -8,6 +9,7 @@ import type { useCamera } from '../use-camera';
 import type { Signal } from '@angular/core';
 import type { NativeTask } from '@/core/hooks/use-native-task/types';
 export interface NativeFeature extends NativeTask {
+  list?: ReturnType<typeof useNativeList>['list'];
   interaction?: ReturnType<typeof useInteractions>['interaction'];
   nfc?: ReturnType<typeof useNfc>['nfc'];
   ble?: ReturnType<typeof useBle>['ble'];
