@@ -6,10 +6,12 @@ import { App } from '@/app/app';
 import { appConfig } from '@/app/app.config';
 import { initializeNativeViews } from '../native-views';
 import { initializeSplash, prepareSplash } from '../splash';
+import { initializeBackgroundTasks } from '../background-tasks';
 import { initializeFonts } from '../fonts';
 import type { NativeRoot } from './types';
 import tailwind from '../../../../.angular-native/app.tailwind.js';
 export function initializeNativeRuntime() {
+  initializeBackgroundTasks();
   prepareSplash();
   registerPlatformComponents(Platform.OS);
   initializeNativeViews();

@@ -52,6 +52,7 @@ const config: ExpoConfig = {
       'react-native-nfc-manager',
       { nfcPermission: 'Read an NDEF tag only when you start the NFC demonstration.' },
     ],
+    'expo-background-task',
     'expo-asset',
     ['expo-maps', { requestLocationPermission: false }],
     [

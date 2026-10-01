@@ -3,6 +3,12 @@ import { NativeNavigation } from '@ng-native/router';
 import type { ShowcaseCategory } from './types';
 const categories: readonly ShowcaseCategory[] = [
   {
+    id: 'background',
+    title: 'Background tasks',
+    description:
+      'Persistent scheduler registration, execution history and explicit development worker testing.',
+  },
+  {
     id: 'nfc',
     title: 'NFC tags',
     description: 'Inspect support, read NDEF text/URI records and cancel foreground tag sessions.',
