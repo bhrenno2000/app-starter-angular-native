@@ -5,6 +5,7 @@
 @source './shared/components';
 @source './modules/auth/pages';
 @source './modules/home/pages';
+@source './modules/showcase/pages';
 @theme {
   --font-weight-*: initial;
 

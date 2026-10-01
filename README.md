@@ -116,6 +116,8 @@ Sources for these integrations: [Expo Maps](https://docs.expo.dev/versions/lates
 
 Feature modules own their full route paths. The root lazily composes their route lists beneath one shared componentless parent; changing componentless feature parents would deactivate the shared native outlet and discard the home screen. Page components remain lazy-loaded. The communication demonstration can copy its own app link to the native clipboard.
 
-Custom schemes are configured already. HTTPS Universal Links/App Links require an owned domain and platform association files before they can be supported. Expo development clients may open their launcher instead of loading a bundle when started directly by an app link; cold-start behavior must also be verified in a standalone native build.
+Custom schemes are configured already. HTTPS Universal Links/App Links require an owned domain and platform association files before they can be supported. Expo development clients may open their launcher instead of loading a bundle when started directly by an app link; standalone signed iOS Release validation verified cold links, restored mock authentication and back navigation through catalogue/home.
 
 References: [Expo Linking](https://docs.expo.dev/versions/latest/sdk/linking/), [linking into your app](https://docs.expo.dev/linking/into-your-app/).
+
+Startup splash ownership lives in `core/initializers/splash`: hold the splash while fonts load, then hide it after the first successful Angular navigation and render. Simulator Release builds require local ad hoc signing (`CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=-`) to retain SecureStore access to the existing MMKV encryption key. An unsigned build failed Keychain access; rebuilding with signing restored startup without clearing keys or app data.
