@@ -67,7 +67,7 @@ The native HTTP provider is `provideNativeHttpClient()`, because the browser fet
 
 1. Set application name, slug, scheme and bundle/package identifiers in `app.config.ts`.
 2. Edit palette and semantic light/dark tokens in `src/styles.css`.
-3. Change the loaded Inter faces in `src/main.ts` and font tokens in `src/styles.css`.
+3. Change the loaded Inter faces in `src/core/initializers/fonts/index.ts` and font tokens in `src/styles.css`.
 4. Adjust feature routes, backend schemas and API contract for your app.
 
 Tailwind uses `@ng-native/tailwind`, not Uniwind. There is no `tailwind.config.js`; browser preflight is excluded. Native CSS is compiled into a generated global stylesheet on Metro startup. Do not commit `.angular-native`, `.expo`, `ios`, `android`, `dist` or `.env`.
@@ -149,3 +149,9 @@ Background location uses a core hook and a task defined by the existing startup 
 Coordinates are held only in memory. A separate SQLite journal records callback arrival time and sample count, retaining at most 50 entries; it stores no precise coordinates. Native payloads are validated before updating the facade. Stop/sign-out invalidates pending activation and clears memory coordinates; failed stopping blocks further delivery in the current runtime and presents settings guidance. Local sign-out and refresh-token removal still complete if resource cleanup fails. Task availability, callback delivery, background behavior and termination policies require platform/device validation; no physical reception is claimed. Source: [Expo Location](https://docs.expo.dev/versions/latest/sdk/location/).
 
 Location activation persists an explicit opt-in marker; stop and session cleanup persist opt-out before native release. Callbacks check this marker after JavaScript restarts and attempt to close an inactive native task, preventing a failed native stop from silently re-enabling data processing. If intent persistence fails, native stop is still attempted and cleanup failure remains visible. The cold-runtime regression reproduced processing without this guard and now passes.
+
+Signed iOS Release simulator validation started background-location tracking and received native TaskManager callbacks along an explicitly injected simulator route. The callback journal contained arrival timestamps and sample counts only. Explicit stop cleared memory coordinates and persisted opt-out. Signing out while tracking released the native task; after signing in again, inspection confirmed tracking and desiredTracking were both false. This verifies simulator callback plumbing and cleanup, not physical GPS reception, OS wake-up or Android behavior.
+
+Notification simulator checks tapped a delivered local-notification banner while the app was running in the background, then repeated the interaction after terminating the app. The cold launch exposed a native opened response through the application-owned hook. Event history is process-scoped; a normal launch without a notification interaction returned no previous response. Regression coverage distinguishes receipt from opening, restores launch responses, clears native history and releases listeners, and prevents cancellation/dismissal of unrelated notifications. Remote push provisioning/delivery and Android/physical-device notification behavior remain unverified.
+
+The simulator cleanup flow dismissed delivered demo notifications and read an empty delivered list, scheduled a demo and requested cancellation before reading an empty pending list, then cleared event history and confirmed null receive/open summaries after restart. The native cancellation observation is the resulting empty queue; ownership boundaries are additionally covered by SDK-mocked regressions.
