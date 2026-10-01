@@ -88,6 +88,8 @@ Camera capture, enrolled biometrics and several sensors require a physical devic
 
 Sources: [Expo SDK](https://docs.expo.dev/versions/latest/), [TanStack Angular Query](https://tanstack.com/query/latest/docs/framework/angular/overview), [Zustand vanilla](https://zustand.docs.pmnd.rs/apis/create-store), [Angular Native](https://ng-native.com/guide/getting-started).
 
+File demonstrations write/read/list app-owned documents, copy the demo file, move it into a subfolder, download and preview a small public Expo package manifest, and open native sharing/PDF sheets. Download requests time out after 20 seconds and abort when the screen loses focus or enters the background. A failed request leaves the previously downloaded document intact.
+
 ## Application setup
 
 Provider factories live in `src/core/providers/<name>/index.ts`; `application/index.ts` composes the application DI configuration. The Safe Area context lives in `providers/safe-area/index.ts` with its external `index.html` template. Startup tasks live in `src/core/initializers/<name>/index.ts`: native runtime/view registration, awaited font loading, theme restoration, TanStack online/focus synchronization and notification listeners. `app.config.ts` only consumes the provider composition, and `main.ts` only invokes the native runtime initializer.
