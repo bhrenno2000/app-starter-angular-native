@@ -1,7 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { ngNative } from '@ng-native/testing/vitest';
 import { defineConfig } from 'vitest/config';
-// Version 0.2 points gesture stand-ins at unpublished src files; use its shipped dist copies.
 const standIn = (name: string) =>
   fileURLToPath(
     new URL(`./dist/${name}.js`, import.meta.resolve('@ng-native/testing/package.json')),
