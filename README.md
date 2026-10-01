@@ -342,7 +342,3 @@ Agent rules/context, screenshots, validation reports, temporary PR drafts and lo
 - [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/), [Reanimated](https://docs.swmansion.com/react-native-reanimated/) and [Worklets](https://docs.swmansion.com/react-native-worklets/)
 - [React Native BLE PLX](https://dotintent.github.io/react-native-ble-plx/) and [React Native NFC Manager](https://github.com/revtel/react-native-nfc-manager)
 - [React Native WebView](https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md)
-
-## License
-
-MIT. See [LICENSE](LICENSE).
